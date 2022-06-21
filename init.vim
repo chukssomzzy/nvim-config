@@ -3,13 +3,16 @@ call plug#begin(stdpath('data') . 'vimplug')
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-telescope/telescope.nvim'
+    "telescope load_extension 
+    Plug 'xiyaowong/telescope-emoji.nvim'
+    "Plug 'pschmitt/telescope-emoji-fzf.nvim'
     Plug 'neovim/nvim-lspconfig'
     Plug 'williamboman/nvim-lsp-installer', { 'branch': 'main' }
     Plug 'hrsh7th/nvim-compe'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
-    Plug 'NTBBloodbath/galaxyline.nvim', { 'branch': 'main' } "Maintained galaxyline
+    Plug 'NTBBloodbath/galaxyline.nvim', { 'branch': 'main' } "Maintained .config/nvim/init.vim-airline
     Plug 'kyazdani42/nvim-web-devicons'  " needed for galaxyline icons
 
     Plug 'NLKNguyen/papercolor-theme'
@@ -23,6 +26,40 @@ call plug#begin(stdpath('data') . 'vimplug')
     Plug 'tpope/vim-fugitive'
 
     Plug 'tomtom/tcomment_vim'
+    "Nerd Tree cannot survive without this shit
+  Plug 'preservim/nerdtree'
+    "completion
+   Plug 'hrsh7th/cmp-buffer'
+   Plug 'hrsh7th/cmp-path'
+   Plug 'hrsh7th/cmp-nvim-lsp'
+   Plug 'hrsh7th/vim-vsnip'
+   Plug 'hrsh7th/vim-vsnip-integ'
+   Plug 'L3MON4D3/luaSnip'
+   Plug 'hrsh7th/cmp-cmdline'
+    Plug 'hrsh7th/nvim-cmp'
+
+       "coc nvim
+   " Use release branch (recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+   "emmet vim
+   Plug 'mattn/emmet-vim'
+   "snippet engine
+   Plug 'dsznajder/vscode-es7-javascript-react-snippets', { 'do': 'yarn install --frozen-lockfile && yarn compile' }
+   "coc-pairs
+  "Plug 'neoclide/coc-pairs',{'branch':'master'}
+   "autosave
+   Plug 'Pocco81/AutoSave.nvim'
+   "syntax highlighting for vim
+   Plug 'sheerun/vim-polyglot'
+   "git gutter
+   "Plug 'akiomik/git-gutter-vim'
+   "vim themes
+   Plug 'vim-airline/vim-airline'
+   Plug 'vim-airline/vim-airline-themes'
+   "github copilot
+   Plug 'github/copilot.vim'
+   Plug 'Th3Whit3Wolf/space-nvim'
+   Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 
@@ -48,10 +85,13 @@ set virtualedit=all
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set autoindent
 set mouse=a  " mouse support
-
+set swapfile "set swapfile
+set completeopt=menu,menuone,noselect
+ "set clipboard 
+ 
 
 " set leader key to ,
-let g:mapleader=","
+let g:mapleader=" "
 
 " >> Telescope bindings
 nnoremap <Leader>pp <cmd>lua require'telescope.builtin'.builtin{}<CR>
@@ -80,7 +120,6 @@ nnoremap <Leader>rg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
 " pick color scheme
 nnoremap <Leader>cs <cmd>lua require'telescope.builtin'.colorscheme{}<CR>
 
-
 " >> setup nerdcomment key bindings
 let g:NERDCreateDefaultMappings = 0
 let g:NERDSpaceDelims = 1
@@ -104,10 +143,24 @@ nnoremap <silent> gn    <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> ga    <cmd>Lspsaga code_action<CR>
 xnoremap <silent> ga    <cmd>Lspsaga range_code_action<CR>
 nnoremap <silent> gs    <cmd>Lspsaga signature_help<CR>
-
 lua <<EOF
 require("lsp")
 require("treesitter")
 require("statusbar")
 require("completion")
+--require("autoPairs")
+require("autoSave")
+require("telescope").load_extension("emoji")
+require('cmp-vars')
+require('luaSnip')
+require('vimConfig')
+require('changeSign')
+--require("telescope").load_extension("emoji_fzf")
 EOF
+source $HOME/.config/nvim/config/cocNvim.vim
+source $HOME/.config/nvim/config/cocSnippet.vim
+source $HOME/.config/nvim/config/airline.vim
+source $HOME/.config/nvim/config/copilot.vim
+"source $HOME/.config/nvim/config/space.vim
+
+
