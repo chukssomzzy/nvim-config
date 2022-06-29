@@ -29,6 +29,7 @@ call plug#begin(stdpath('data') . 'vimplug')
     "Nerd Tree cannot survive without this shit
   Plug 'preservim/nerdtree'
     "completion
+   Plug 'hrsh7th/cmp-emoji'
    Plug 'hrsh7th/cmp-buffer'
    Plug 'hrsh7th/cmp-path'
    Plug 'hrsh7th/cmp-nvim-lsp'
@@ -88,8 +89,7 @@ set mouse=a  " mouse support
 set swapfile "set swapfile
 set completeopt=menu,menuone,noselect
  "set clipboard 
- 
-
+ "set clipboard=unnamedplus
 " set leader key to ,
 let g:mapleader=" "
 
@@ -147,7 +147,7 @@ lua <<EOF
 require("lsp")
 require("treesitter")
 require("statusbar")
-require("completion")
+--require("completion")
 --require("autoPairs")
 require("autoSave")
 require("telescope").load_extension("emoji")
@@ -161,6 +161,10 @@ source $HOME/.config/nvim/config/cocNvim.vim
 source $HOME/.config/nvim/config/cocSnippet.vim
 source $HOME/.config/nvim/config/airline.vim
 source $HOME/.config/nvim/config/copilot.vim
+"source $HOME/.config/nvim/config/clipboard.vim
 "source $HOME/.config/nvim/config/space.vim
+ "source $HOME/.config/nvim/config/emoji.vim
 
+
+  
 

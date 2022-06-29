@@ -5,7 +5,7 @@
     --path to cmp-core
   sources = {
     { name = 'path' ,
-        optiom={
+        option={
             trailing_slash = true
         },
     },
@@ -47,7 +47,7 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 local lspconfig = require('lspconfig')
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'tsserver','tailwindcss','html','jsonls','emmet_ls' }
+local servers = { 'tsserver','html','jsonls','emmet_ls',"eslint","cssls","graphql","cssmodules_ls" }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     -- on_attach = my_custom_on_attach,
@@ -63,3 +63,78 @@ cmp.setup.cmdline(':', {
       { name = 'cmdline' }
     })
   })  
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+    
+  --disabling cmp for comments 
+  cmp.setup({
+    enabled = function()
+      -- disable completion in comments
+      local context = require 'cmp.config.context'
+      -- keep command mode completion enabled when cursor is in a comment
+      if vim.api.nvim_get_mode().mode == 'c' then
+        return true
+      else
+        return not context.in_treesitter_capture("comment") 
+          and not context.in_syntax_group("Comment")
+      end
+    end
+})
+
+--cmp emoji 
+cmp.setup({
+    sources = {
+      { name = 'emoji' ,
+          option = {
+              insert = true,
+          }
+      }
+    }
+  })
+  
+  --[[cmp spell 
+  cmp.setup({
+    sources = {
+      { name = 'spell' }
+    }
+  })
+  
+  --cmp snippets 
+  cmp.setup({
+    sources = {
+      { name = 'snippets' }
+    }
+  })
+  
+  --cmp treesitter 
+  cmp.setup({
+    sources = {
+      { name = 'treesitter' }
+    }
+  })
+  
+  --cmp vim_dadbod_completion 
+  cmp.setup({
+    sources = {
+      { name = 'vim_dadbod_completion' }
+    }
+  })
+  
+  --cmp vim_lua 
+  cmp.setup({
+    sources = {
+      { name = 'vim_lua' }
+    }
+  })     
+  
+  --cmp nvim_lsp 
+  cmp.setup({
+    sources = {
+      { name = 'nvim_lsp' }
+    }
+}) --]]
+   

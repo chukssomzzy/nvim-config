@@ -1,9 +1,9 @@
 vim.o.completeopt = "menuone,noselect"
 
 require'compe'.setup {
-    enabled = true,
-    autocomplete = true,
-    debug = false,
+    enabled = false,
+    autocomplete = false,
+    debug = true,
     min_length = 1,
     preselect = 'enable',
     throttle_time = 80,
@@ -15,20 +15,20 @@ require'compe'.setup {
     documentation = true,
 
     source = {
+       -- ultisnips:true,
         path = {kind = "   (Path)"},
-        buffer = {kind = "   (Buffer)"},
+        buffer ={kind = "   (Buffer)"},
         calc = {kind = "   (Calc)"},
         vsnip = {kind = "   (Snippet)"},
         nvim_lsp = {kind = "   (LSP)"},
-        -- nvim_lua = {kind = "  "},
-		nvim_lua = false,
+        nvim_lua = {kind = "  "},
         spell = {kind = "   (Spell)"},
         tags = false,
         vim_dadbod_completion = true,
         -- snippets_nvim = {kind = "  "},
         -- ultisnips = {kind = "  "},
         treesitter = {kind = "  "},
-        emoji = {kind = " ﲃ  (Emoji)", filetypes={"markdown", "text"}}
+        emoji = {kind = " ﲃ  (Emoji)", filetypes={"markdown", "text","javascript","typescript","lua","html"}}
         -- for emoji press : (idk if that in compe tho)
     }
 }
@@ -45,4 +45,4 @@ local check_back_space = function()
         return false
     end
 end
-
+    
