@@ -5,6 +5,7 @@ call plug#begin(stdpath('data') . 'vimplug')
     Plug 'nvim-telescope/telescope.nvim'
     "telescope load_extension 
     Plug 'xiyaowong/telescope-emoji.nvim'
+    Plug 'sharkdp/fd'
     "Plug 'pschmitt/telescope-emoji-fzf.nvim'
     Plug 'neovim/nvim-lspconfig'
     Plug 'williamboman/nvim-lsp-installer', { 'branch': 'main' }
@@ -61,6 +62,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
    Plug 'github/copilot.vim'
    Plug 'Th3Whit3Wolf/space-nvim'
    Plug 'ryanoasis/vim-devicons'
+   Plug 'powerline/powerline'
 call plug#end()
 
 
@@ -155,6 +157,8 @@ require('cmp-vars')
 require('luaSnip')
 require('vimConfig')
 require('changeSign')
+require("lsp_lines").setup()
+require("lspLines")
 --require("telescope").load_extension("emoji_fzf")
 EOF
 source $HOME/.config/nvim/config/cocNvim.vim
