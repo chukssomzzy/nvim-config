@@ -5,8 +5,7 @@ call plug#begin(stdpath('data') . 'vimplug')
     Plug 'nvim-telescope/telescope.nvim'
     "telescope load_extension 
     Plug 'xiyaowong/telescope-emoji.nvim'
-    Plug 'sharkdp/fd'
-    "Plug 'pschmitt/telescope-emoji-fzf.nvim'
+   "Plug 'pschmitt/telescope-emoji-fzf.nvim'
     Plug 'neovim/nvim-lspconfig'
     Plug 'williamboman/nvim-lsp-installer', { 'branch': 'main' }
     Plug 'hrsh7th/nvim-compe'
@@ -15,8 +14,9 @@ call plug#begin(stdpath('data') . 'vimplug')
 
     Plug 'NTBBloodbath/galaxyline.nvim', { 'branch': 'main' } "Maintained .config/nvim/init.vim-airline
     Plug 'kyazdani42/nvim-web-devicons'  " needed for galaxyline icons
-
+    "theme
     Plug 'NLKNguyen/papercolor-theme'
+    Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
     Plug 'nikvdp/neomux'
 
     Plug 'tpope/vim-ragtag'
@@ -67,8 +67,6 @@ call plug#end()
 
 
 
-colorscheme PaperColor
-
 " basic settings
 syntax on
 set number
@@ -89,9 +87,10 @@ set backspace=indent,eol,start " allow backspacing over everything in insert mod
 set autoindent
 set mouse=a  " mouse support
 set swapfile "set swapfile
+"set background = light
 set completeopt=menu,menuone,noselect
  "set clipboard 
- "set clipboard=unnamedplus
+ set clipboard=unnamedplus
 " set leader key to ,
 let g:mapleader=" "
 
@@ -159,16 +158,19 @@ require('vimConfig')
 require('changeSign')
 require("lsp_lines").setup()
 require("lspLines")
+--require("tokyonight")
 --require("telescope").load_extension("emoji_fzf")
 EOF
 source $HOME/.config/nvim/config/cocNvim.vim
 source $HOME/.config/nvim/config/cocSnippet.vim
 source $HOME/.config/nvim/config/airline.vim
 source $HOME/.config/nvim/config/copilot.vim
+"source $HOME/.config/nvim/config/tokyonight.vim
 "source $HOME/.config/nvim/config/clipboard.vim
 "source $HOME/.config/nvim/config/space.vim
  "source $HOME/.config/nvim/config/emoji.vim
 
-
-  
+  "colorshemas 
+  colorscheme tokyonight
+  "colorscheme PaperColor
 

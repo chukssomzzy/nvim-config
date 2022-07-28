@@ -113,8 +113,8 @@ local custom_lsp_attach = function(client)                                      
     --  a language server for Lua.
 
     -- set the path to the sumneko installation
-    local system_name = "Linux" -- (Linux, macOS, or Windows)
-    local sumneko_root_path = '/path/to/lua-language-server'
+    local system_name = "aarch64-linux-android" -- (Linux, macOS, or Windows)
+    local sumneko_root_path = '~/.local/share/nvim/lsp_servers/sumneko_lua'
     local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
 
     require('lspconfig').sumneko_lua.setup({                                                               cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
