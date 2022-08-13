@@ -39,7 +39,8 @@ call plug#begin(stdpath('data') . 'vimplug')
    Plug 'L3MON4D3/luaSnip'
    Plug 'hrsh7th/cmp-cmdline'
     Plug 'hrsh7th/nvim-cmp'
-
+    "hover effect in nvim let try it
+    Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
        "coc nvim
    " Use release branch (recommend)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -70,6 +71,7 @@ call plug#end()
 " basic settings
 syntax on
 set number
+set numberwidth=1
 set relativenumber
 set ignorecase      " ignore case
 set smartcase     " but don't ignore it, when search string contains uppercase letters
@@ -119,14 +121,13 @@ nnoremap <Leader>bfs <cmd>lua require'telescope.builtin'.find_files{}<CR>
 nnoremap <Leader>rg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
 
 " pick color scheme
-nnoremap <Leader>cs <cmd>lua require'telescope.builtin'.colorscheme{}<CR>
+nnoremap <Leader># <cmd>lua require'telescope.builtin'.colorscheme{}<CR>
 
 " >> setup nerdcomment key bindings
 let g:NERDCreateDefaultMappings = 0
 let g:NERDSpaceDelims = 1
 
-xnoremap <Leader>ci <cmd>call NERDComment('n', 'toggle')<CR>
-nnoremap <Leader>ci <cmd>call NERDComment('n', 'toggle')<CR>
+nnoremap <Leader>Ci <cmd>call NERDComment('n', 'toggle')<CR>
 
 
 " >> Lsp key bindings
@@ -142,7 +143,7 @@ nnoremap <silent> <C-n> <cmd>Lspsaga diagnostic_jump_next<CR>
 nnoremap <silent> gf    <cmd>lua vim.lsp.buf.formatting()<CR>
 nnoremap <silent> gn    <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> ga    <cmd>Lspsaga code_action<CR>
-xnoremap <silent> ga    <cmd>Lspsaga range_code_action<CR>
+xnoremap <silent> gA   <cmd>Lspsaga range_code_action<CR>
 nnoremap <silent> gs    <cmd>Lspsaga signature_help<CR>
 lua <<EOF
 require("lsp")
@@ -158,6 +159,7 @@ require('vimConfig')
 require('changeSign')
 require("lsp_lines").setup()
 require("lspLines")
+--require('lspHover')
 --require("tokyonight")
 --require("telescope").load_extension("emoji_fzf")
 EOF
@@ -165,6 +167,7 @@ source $HOME/.config/nvim/config/cocNvim.vim
 source $HOME/.config/nvim/config/cocSnippet.vim
 source $HOME/.config/nvim/config/airline.vim
 source $HOME/.config/nvim/config/copilot.vim
+ "source $HOME/.config/nvim/config/saga.vim
 "source $HOME/.config/nvim/config/tokyonight.vim
 "source $HOME/.config/nvim/config/clipboard.vim
 "source $HOME/.config/nvim/config/space.vim
@@ -173,4 +176,6 @@ source $HOME/.config/nvim/config/copilot.vim
   "colorshemas 
   colorscheme tokyonight
   "colorscheme PaperColor
-
+   "colorscheme blue
+   "colorscheme  delek
+                                              

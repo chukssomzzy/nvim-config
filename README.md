@@ -56,7 +56,7 @@ If you're configuring neovim for the first time, then do the following:
 
    ```bash 
    mkdir -p ~/.config/nvim
-   git clone https://github.com/nikvdp/nvim-lsp-config/ ~/.config/nvim
+   git clone https://github.com/chukssomzzy/nvim-config/ ~/.config/nvim
    ```
 2. install vim-plug:
 
@@ -91,3 +91,7 @@ If you're configuring neovim for the first time, then do the following:
    servers are available
 
 7. Add/customize your keybindings to `~/.config/nvim/init.vim`.
+
+8. Patching A font on termux 
+
+
