@@ -63,7 +63,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
    Plug 'github/copilot.vim'
    Plug 'Th3Whit3Wolf/space-nvim'
    Plug 'ryanoasis/vim-devicons'
-   Plug 'powerline/powerline'
+   Plug 'powerline/powerline' 
+   Plug 'samodostal/image.nvim'
+   Plug 'nvim-lua/plenary.nvim'
 call plug#end()
 
 
