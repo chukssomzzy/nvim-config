@@ -14,7 +14,6 @@ endfunction
  function! LoadPlugins()
 " >> load plugins
    call plug#begin(stdpath('data') . 'vimplug')
-    Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     "telescope load_extension 
@@ -81,14 +80,12 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
    Plug 'powerline/powerline' 
    Plug 'samodostal/image.nvim'
    Plug 'nvim-lua/plenary.nvim'
-   if v:version >= 800
         Plug 'JuanDAC/betty-ale-vim'
         Plug 'dense-analysis/ale'|                  "linting program
         Plug 'chrisbra/changesplugin'|              "show changes in git
         Plug 'rust-lang/rust.vim'
         if executable('ctags')
-            Plug 'ludovicchabant/vim-gutentags'
-        endif
+            Plug 'ludovicchabant/vim-gutentags' 
         "Plug 'codota/tabnine-vim'|                  "It needs clangd-9 to works
         "Plug 'mg979/vim-visual-multi'               "Multi cursor
     else
@@ -168,7 +165,7 @@ let g:mapleader=" "
     nnoremap <F3> :set wrap!<CR>:set wrap?<CR>|         " n_<F3>          -> toggle wrap
 
     nnoremap <F4> :set nu! list!<CR>|                   " n_<F4>          -> toggle numbers
-    nnoremap <esc>h :tabprevious<CR>|                   " n_M-h           -> goto previous tab (more confortable)
+    nnoremap <esc>h :tabrewind<CR>|                   " n_M-h           -> goto previous tab (more confortable)
     nnoremap <esc>l :tabnext<CR>|                       " n_M-l           -> goto next tab (more confortable)
     nnoremap <leader><esc> :nohl<CR>|                   " n_<leader><esc> -> clean format
     nnoremap <leader>U magUiw`a|                        " n_<leader>U     -> uppecase word
@@ -176,11 +173,11 @@ let g:mapleader=" "
     nnoremap <leader>a ggVG|                            " n_<leader>U     -> select all document
     nnoremap <leader>b :BuffergatorToggle<CR>|          " n_<leader>b     -> Toggle BufferTree
     "nnoremap <leader>b :Buffers<CR>|                   " n_<leader>b     -> fzf buffer finder
-    nnoremap <leader>eb :NERDTreeToggle<CR>|             " n_<leader>e     -> toggle FileExplorer (NERDTree)
-    nnoremap <leader>ff :Files<CR>|                     " n_<leader>f     -> using fzf as file finder
-    nnoremap <leader>fb :Buffers<CR>|                     " n_<leader>f     -> using fzf as file finder
+    nnoremap <leader>h :NERDTreeToggle<CR>|             " n_<leader>e     -> toggle FileExplorer (NERDTree)
+    nnoremap <leader>ff :files<CR>|                     " n_<leader>f     -> using fzf as file finder
+    nnoremap <leader>fb :buffers<CR>|                     " n_<leader>f     -> using fzf as file finder
     nnoremap <leader>f.. :FZF ..<CR>|                   " n_<leader>f     -> using fzf as file finder
-    
+                         
     nnoremap <leader>fh :FZF ~<CR>|                     " n_<leader>f     -> using fzf as file finder
     nnoremap <leader>i magg=G'a|                        " n_<leader>i     -> indent file
     " nnoremap <leader>q :q<CR>|                          " n_<leader>q     -> quit
@@ -442,6 +439,7 @@ require('vimConfig')
 require('changeSign')
 require("lsp_lines").setup()
 require("lspLines")
+require("imageNvim")
 --require('lspHover')
 --require("tokyonight")
 --require("telescope").load_extension("emoji_fzf")
@@ -452,7 +450,6 @@ source $HOME/.config/nvim/config/airline.vim
 source $HOME/.config/nvim/config/copilot.vim
  "source $HOME/.config/nvim/config/saga.vim
 "source $HOME/.config/nvim/config/tokyonight.vim
-"source $HOME/.config/nvim/config/clipboard.vim
 "source $HOME/.config/nvim/config/space.vim
  "source $HOME/.config/nvim/config/emoji.vim
 
