@@ -1,3 +1,13 @@
+set encoding=utf-8                                "encoding file for unicodes and accents
+scriptencoding utf-8                              "Requirements of Vint and it must be after encoding
+
+"Vim's configuration file
+"RAW's url: https://git.io/fjppd
+"RAW's url2: gustavomejia.tech/.vimrc
+"download1: curl -sLo ~/.vimrc https://git.io/fjppd
+"reload file :so ~/.vimrc or :so %
+"To find more info user :help <option> ex :help [ nocompatible ]
+"To exit help use <C-w> q
 
 
 function! Main()
@@ -10,86 +20,54 @@ function! Main()
     call Mappings()
     call SettingFiletypes()
     call SettingPlugins()
-endfunction 
+endfunction
+
+
 function! LoadPlugins()
-    " >> load plugins
-    call plug#begin(stdpath('data') . 'vimplug')
-    Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
-    "telescope load_extension 
-    Plug 'xiyaowong/telescope-emoji.nvim'
-    "Plug 'pschmitt/telescope-emoji-fzf.nvim'
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'williamboman/mason.nvim'
-    Plug 'hrsh7th/nvim-compe'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+    """use :sort /\//
 
-    Plug 'NTBBloodbath/galaxyline.nvim', { 'branch': 'main' } "Maintained .config/nvim/init.vim-airline
-    Plug 'kyazdani42/nvim-web-devicons'  " needed for galaxyline icons
-    "theme
-    Plug 'NLKNguyen/papercolor-theme'
-    Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-    Plug 'nikvdp/neomux'
-
-    Plug 'tpope/vim-ragtag'
-    Plug 'tpope/vim-surround'
-    Plug 'tpope/vim-unimpaired'
-
-    Plug 'tpope/vim-eunuch'
-    Plug 'tpope/vim-fugitive'
-    Plug 'BurntSushi/ripgrep'
-
-    Plug 'tomtom/tcomment_vim'
-    "Nerd Tree cannot survive without this shit
-    Plug 'preservim/nerdtree'
-    Plug 'preservim/nerdcommenter' 
-    "completion
-    Plug 'hrsh7th/cmp-emoji'
-    Plug 'hrsh7th/cmp-buffer'
-    Plug 'hrsh7th/cmp-path'
-    Plug 'hrsh7th/cmp-nvim-lsp'
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'hrsh7th/vim-vsnip-integ'
-    Plug 'L3MON4D3/luaSnip'
-    Plug 'hrsh7th/cmp-cmdline'
-    Plug 'hrsh7th/nvim-cmp'
-    "hover effect in nvim let try it
-    Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
-    "coc nvim
+    call plug#begin('~/.vim/plugged')
+    Plug 'rafi/awesome-vim-colorschemes'|           "awesome themes
+    Plug 'mattn/emmet-vim'|                         "sippet autocomplete for html/css
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+    Plug 'cocopon/iceberg.vim' |                    "iceberg theme
+    "Plug 'Yggdroot/indentLine'|                     "Create visual space indentation (python, bash, ruby)
+    "Plug 'neomake/neomake'|                         "neomake for shellchecker
+    Plug 'preservim/nerdcommenter'|                 "Create comments in file with <leader>cc
+    Plug 'preservim/nerdtree'|                      "File Explorer NERDTree
+    Plug 'luochen1990/rainbow'|                     "color brackets
+    "Plug 'preservim/tagbar'                        "Tagbar menu
+    Plug 'SirVer/ultisnips'
+    Plug 'vim-airline/vim-airline'|                 "Awesome Status bar
+    Plug 'vim-airline/vim-airline-themes'|          "Themes for status bar check https://github.com/vim-airline/vim-airline/wiki/Screenshots
+    Plug 'moll/vim-bbye'|                           "requisit for vim-symlink and vimdiff
+    Plug 'jeetsukumaran/vim-buffergator'|           "Set BufferTree
+    Plug 'ryanoasis/vim-devicons'|                  "Custom Icons; Install Font Patchs before use https://github.com/ryanoasis/nerd-fonts
+    Plug 'tpope/vim-fugitive'|                      "git integration
+    Plug 'pangloss/vim-javascript'|                 "improve highlighting for javascript
+    Plug 'vim-utils/vim-man'
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+    "Plug 'matze/vim-move'|                          "move blocks up and down (remaping instead)
+    Plug 'roxma/vim-paste-easy'|                    "Enable paste-mode if you paste from clipboard (it checks speed)
+    Plug 'honza/vim-snippets'
+    Plug 'tpope/vim-surround'|                      "surround
+    Plug 'aymericbeaumet/vim-symlink'| 
+    "open source of symbolic links
+    Plug 'ashisha/image.vim'
+    Plug 'Vimjas/vint'|                             "Vimscript linter install with pip3 install vim-vint
+    "Plug 'christoomey/vim-tmux-navigator'|          "set tmux-navigation with vim check the repo for the tmux configuration
     " Use release branch (recommend)
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    "emmet vim
-    Plug 'mattn/emmet-vim'
-    "snippet engine
-    Plug 'dsznajder/vscode-es7-javascript-react-snippets', { 'do': 'yarn install --frozen-lockfile && yarn compile' }
-    "coc-pairs
-    "Plug 'neoclide/coc-pairs',{'branch':'master'}
-    "autosave
-    Plug 'Pocco81/AutoSave.nvim'
-    "syntax highlighting for vim
-    Plug 'sheerun/vim-polyglot'
-    "git gutter
-    "Plug 'akiomik/git-gutter-vim'
-    "vim themes
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-    "github copilo
-    Plug 'github/copilot.vim'
-    "lint
-    Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-    Plug 'Th3Whit3Wolf/space-nvim'
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'powerline/powerline' 
-    Plug 'luochen1990/rainbow'|                     "color brackets  
-    Plug 'samodostal/image.nvim'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'JuanDAC/betty-ale-vim'
-    Plug 'dense-analysis/ale'|                  "linting program
-    Plug 'chrisbra/changesplugin'|              "show changes in git
-    Plug 'rust-lang/rust.vim'
-    if executable('ctags')
-        Plug 'ludovicchabant/vim-gutentags' 
+
+    if v:version >= 800
+        Plug 'JuanDAC/betty-ale-vim'
+        Plug 'dense-analysis/ale'|                  "linting program
+        Plug 'chrisbra/changesplugin'|              "show changes in git
+        Plug 'rust-lang/rust.vim'
+        if executable('ctags')
+            Plug 'ludovicchabant/vim-gutentags'
+        endif
         "Plug 'codota/tabnine-vim'|                  "It needs clangd-9 to works
         "Plug 'mg979/vim-visual-multi'               "Multi cursor
     else
@@ -100,55 +78,69 @@ function! LoadPlugins()
         endif
     endif
     "Plug 'Athesto/vim-betty'|
-
     call plug#end()
 endfunction
 
-
-
-" basic settings
-set encoding=utf-8                                "encoding file for unicodes and accents
-scriptencoding utf-8 
 function! Settings()
-    syntax on
-    set autoindent
-    set number
-    set nowrap
-    set numberwidth=1
-    set relativenumber
-    set splitright                                    "split buffers at right 
-    set ignorecase      " ignore case
-    set smartcase     " but don't ignore it, when search string contains uppercase letters
-    set nocompatible
-    set incsearch        " do incremental searching
-    set visualbell
-    set expandtab
-    set tabstop=8
-    set ruler
-    set smartindent
-    set shiftwidth=4
-    set hlsearch
-    set virtualedit=all
-    set backspace=indent,eol,start " allow backspacing over everything in insert mode
-    set cindent
-    set autoindent
-    set mouse=a  " mouse support
-    set swapfile "set swapfile
-    "set background = light
-    set completeopt=menu,menuone,noselect
-    "set clipboard 
-    set clipboard=unnamedplus
-    " set leader key to ,
+    syntax on                                         "Coloring syntax and highlighting
+    filetype indent on                                "enable filetype check for indent
+    filetype plugin on                                "enable filetype check for plugin
+    "set colorcolumn=80                                "a file should not have more than 80chars
+    set cursorline                                    "highlight the line at the cursor
+    set exrc                                          "run local .vimrc if it's present
+    set hlsearch                                      "highlight search
+    set incsearch                                     "increase search and highlight
+    set laststatus=2                                  "show file name and save status
+    set mouse=a                                       "using mouse, perfect for mobile version
+    set modeline                                      "set mode with the first line # :vi set ft=dockerfile:
+    set noerrorbells                                  "no sounds
+    set nowrap                                        "no wrap line if screen is not enough
+    set number                                        "show line number
+    set pastetoggle=<F2>                              "disable auto-identing in <C-S-v> with F2
+    set path=.,**|                                    "include actual and all child into path. use :find <sub-file>
+    "set relativenumber                                "show relative number
+    set showcmd                                       "display cmds at bottom right of the screen
+    "set splitbelow                                    "split buffers below and not above
+    set splitright                                    "split buffers at right
+    "set startofline                                  "????
     set t_Co=256                                      "patch, set explicit 256 colors for term w/o 256-color
     set t_u7=""                                       "patch, resolve starting with REPLACE mode on (Windows problem) https://github.com/vim/vim/issues/6365#issuecomment-652299438
     set t_ut=""                                       "patch, resolve whitespace color problem https://github.com/microsoft/terminal/issues/832
-    set undodir=~/.vim/undodir                        "Undo directory for undo buffer
     set backupdir=~/.vim/backupdir                    "backupdir
     set backup
-    set undofile "save undo buffer in (undodir)ectory 
-    set foldlevelstart=99                             "Folds search about :help usr_28 
-    highlight clear                                   "Clean highlight must go before colorscheme 
+    set undofile                                      "save undo buffer in (undodir)ectory
+    set wildmenu                                      "expland menu in the statusbar ex: :colorscheme <tab>
+    set tabstop=4                                     "number of space with tab key
+    set shiftwidth=4                                  "number of space with autoindenting
+    set foldlevelstart=99                             "Folds search about :help usr_28
+    "set foldcolumn=1                                 "View the folds
+    " Use a line cursor within insert mode and a block cursor everywhere else.
+    "
+    " Reference chart of values:
+    "   Ps = 0  -> blinking block.
+    "   Ps = 1  -> blinking block (default).
+    "   Ps = 2  -> steady block.
+    "  Ps = 3  -> blinking underline.
+    "   Ps = 4  -> steady underline.
+    "   Ps = 5  -> blinking bar (xterm).
+    "   Ps = 6  -> steady bar (xterm).
+    let &t_SI = "\e[6 q"
+    let &t_EI = "\e[2 q"
+    highlight clear                                   "Clean highlight must go before colorscheme
+    try
+        "colorscheme challenger_deep                   "Explicit colorscheme
+        colorscheme iceberg | set background=dark     "Iceberg dark
+    catch
+        colorscheme ron
+    endtry
+    call CustomList()
+    if v:version >= 800
+        call Vim8Setup()
+    endif
+
+    "command -nargs=* Make :make <args> | redraw! \|     "redraw make after enter
 endfunction
+
 function! CustomList()
     set list                                            "show special chars
     set listchars=|                                     "resetListchars
@@ -161,31 +153,44 @@ function! CustomList()
     let g:mySKfg=235
     execute 'hi SpecialKey ctermfg ='.g:mySKfg
 endfunction
+
 function! Mappings()
-    let g:mapleader=" "
-    " >> Telescope bindings
+    """ to sort use sort /map /
+
+    " mapping [ insert-mode ]
+    let g:mapleader=' '
+    inoremap <C-c> <esc>|                               " i_C-c           -> insert MODE mapping Ctrl-c as ESC, VisualBlock problem
+    inoremap jk <esc>|                                  " i_jk            -> insert MODE mapping jk as ESC
+    inoremap , ,<c-g>u|                                 " i_,             -> create undo mark in key
+    inoremap . .<c-g>u|                                 " i_.             -> create undo mark in key
+    inoremap ( (<c-g>u|                                 " i_(             -> create undo mark in key
+    inoremap ) )<c-g>u|                                 " i_)             -> create undo mark in key
+
+    " mapping [ normal-mode ]\
+    nnoremap * *N|                                      " n_*             -> don't change position with *\
+    nnoremap <C-@> <C-^>zz|                             " n_C-<space>     -> go to last open file
+    nnoremap <C-H> <C-W><C-H>|                          " n_C-H           -> change windows (left)
+    nnoremap <C-J> <C-W><C-J>|                          " n_C-J           -> change windows (down)
+    nnoremap <C-K> <C-W><C-K>|                          " n_C-K           -> change windows (up)
+    nnoremap <C-L> <C-W><C-L>|                          " n_C-L           -> change windows (right)
+    nnoremap <C-W>b :sba<CR>                            " n_C-w-b         -> window from buffer
+    nnoremap <C-W>vb :vert sba<CR>                      " n_C-w-v-b       -> vertical window from buffer
     nnoremap <C-T>b :tab ba<CR>                         " n_C-t-b         -> tab from buffer
     nnoremap <C-T>o :tabonly<CR>                        " n_C-t-o         -> only one tab
-    "buffer mapping
-    nnoremap <C-b>h :bprevious<CR>
-    nnoremap <C-b>l :bnext
-    nnoremap <C-b>q :bdelete<CR>
-
     nnoremap <F3> :set wrap!<CR>:set wrap?<CR>|         " n_<F3>          -> toggle wrap
 
     nnoremap <F4> :set nu! list!<CR>|                   " n_<F4>          -> toggle numbers
-    nnoremap <esc>h :tabrewind<CR>|                   " n_M-h           -> goto previous tab (more confortable)
+    nnoremap <esc>h :tabprevious<CR>|                   " n_M-h           -> goto previous tab (more confortable)
     nnoremap <esc>l :tabnext<CR>|                       " n_M-l           -> goto next tab (more confortable)
     nnoremap <leader><esc> :nohl<CR>|                   " n_<leader><esc> -> clean format
     nnoremap <leader>U magUiw`a|                        " n_<leader>U     -> uppecase word
-    "nnoremap <leader><leader>w :call WriteForced()<CR>| " n_<leader><leader>w -> sudo save
+    nnoremap <leader><leader>w :call WriteForced()<CR>| " n_<leader><leader>w -> sudo save
     nnoremap <leader>a ggVG|                            " n_<leader>U     -> select all document
-
     nnoremap <leader>b :BuffergatorToggle<CR>|          " n_<leader>b     -> Toggle BufferTree
     "nnoremap <leader>b :Buffers<CR>|                   " n_<leader>b     -> fzf buffer finder
-    nnoremap <leader>h :NERDTreeToggle<CR>|             " n_<leader>e     -> toggle FileExplorer (NERDTree)
-    nnoremap <leader>ff :files<CR>|                     " n_<leader>f     -> using fzf as file finder
-    nnoremap <leader>fb :buffers<CR>|                     " n_<leader>f     -> using fzf as file finder
+    nnoremap <leader>e :NERDTreeToggle<CR>|             " n_<leader>e     -> toggle FileExplorer (NERDTree)
+    nnoremap <leader>ff :Files<CR>|                     " n_<leader>f     -> using fzf as file finder
+    nnoremap <leader>fb :Buffers<CR>|                     " n_<leader>f     -> using fzf as file finder
     nnoremap <leader>f.. :FZF ..<CR>|                   " n_<leader>f     -> using fzf as file finder
 
     nnoremap <leader>fh :FZF ~<CR>|                     " n_<leader>f     -> using fzf as file finder
@@ -196,7 +201,7 @@ function! Mappings()
     nnoremap <leader>u maguiw`a|                        " n_<leader>u     -> lowercase word
     nnoremap <leader>w :w<CR>|                          " n_<leader>w     -> save
     nnoremap <leader>xe :call EditVIMRC()<CR>|          " n_<leader>xe    -> edit VIMRC
-    nnoremap <leader>j :call CurlLocal()<CR>|          " n_<leader>j     -> curl into localhost
+    nnoremap <leader>j : call CurlLocal()<CR>|          " n_<leader>j     -> curl into localhost
     nnoremap G Gzz|                                     " n_G             -> center windows after search end
     nnoremap H :bprevious<CR>zz|                        " n_Meta-h        -> goto previous buffer (more confortable)
     nnoremap L :bnext<CR>zz|                            " n_Meta-l        -> goto next buffer (more confortable)
@@ -224,57 +229,11 @@ function! Mappings()
     cnoremap <esc>f <S-Right>|                          " c_Meta-f    -> fordward a word
 
     " mapping [ visual-mode ]
-
-    nnoremap <Leader>pp <cmd>lua require'telescope.builtin'.builtin{}<CR>
-
-    " most recently used files
-    nnoremap <Leader>m <cmd>lua require'telescope.builtin'.oldfiles{}<CR>
-
-    " find buffer
-    nnoremap ; <cmd>lua require'telescope.builtin'.buffers{}<CR>
-
-    " find in current buffer
-    nnoremap <Leader>/ <cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find{}<CR>
-
-    " bookmarks
-    nnoremap <Leader>' <cmd>lua require'telescope.builtin'.marks{}<CR>
-
-    " git files
-    nnoremap <Leader>f <cmd>lua require'telescope.builtin'.git_files{}<CR>
-
-    " all files
-    nnoremap <Leader>bfs <cmd>lua require'telescope.builtin'.find_files{}<CR>
-
-    " ripgrep like grep through dir
-    nnoremap <Leader>rg <cmd>lua require'telescope.builtin'.live_grep{}<CR>
-
-    " pick color scheme
-    nnoremap <Leader># <cmd>lua require'telescope.builtin'.colorscheme{}<CR>
-
-    " >> setup nerdcomment key bindings
-    let g:NERDCreateDefaultMappings = 0
-    let g:NERDSpaceDelims = 1
-
-    nnoremap <Leader>Cc <cmd>call NERDComment('n', 'toggle')<CR>
-
-
-    " >> Lsp key bindings
-    nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-    nnoremap <silent> <C-]> <cmd>lua vim.lsp.buf.definition()<CR>
-    nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
-    nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-    nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
-    nnoremap <silent> K     <cmd>Lspsaga hover_doc<CR>
-    nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-    nnoremap <silent> <C-p> <cmd>Lspsaga diagnostic_jump_prev<CR>
-    nnoremap <silent> <C-n> <cmd>Lspsaga diagnostic_jump_next<CR>
-    nnoremap <silent> gf    <cmd>lua vim.lsp.buf.formatting()<CR>
-    nnoremap <silent> gn    <cmd>lua vim.lsp.buf.rename()<CR>
-    nnoremap <silent> ga    <cmd>Lspsaga code_action<CR>
-    xnoremap <silent> gA   <cmd>Lspsaga range_code_action<CR>
-    nnoremap <silent> gs    <cmd>Lspsaga signature_help<CR> 
+    vnoremap <leader>y :call YankToXclip()<CR>|         " v_<leader>y -> yank selection to clipboard with xclip
+    vnoremap <esc>j :move '>+1<CR>gv=gv|                " v_Meta-j    -> move selection below, reselect, format and reselect
+    vnoremap <esc>k :move '<-2<CR>gv=gv|                " v_Meta-k    -> move selection above, reselect, format and reselect
 endfunction
-"another fun
+
 function! SettingFiletypes()
     augroup Filetypes
         autocmd!
@@ -326,11 +285,11 @@ function! SettingFiletypes()
         augroup END
     augroup END
 endfunction
-"settings plugin
+
 function! SettingPlugins()
     augroup Plugins_Filetypes
         autocmd!
-        autocmd FileType html,css,js,tsx,markdown EmmetInstall                                   "only use in css and html
+        autocmd FileType html,css EmmetInstall                                   "only use in css and html
         autocmd FileType nerdtree RainbowToggleOff                               "Disable Rainbow brackets in NERDTree
         autocmd Filetype c,sh let g:NERDSpaceDelims = 2                             "NerdCommenter spaces 1
         autocmd Filetype fugitive
@@ -344,7 +303,7 @@ function! SettingPlugins()
     let g:airline_left_sep = "\ue0bc"                                            "left icon as diagonal -> https://github.com/ryanoasis/powerline-extra-symbols#glyphs
     let g:airline_powerline_fonts = 1                                            "use the nerd-font
     let g:airline_right_sep = "\ue0be"                                           "right icon as diagonal
-    "" let g:airline_theme = 'minimalist'                                           "airline themes -> https://github.com/vim-airline/vim-airline/wiki/Screenshots
+    let g:airline_theme = 'minimalist'                                           "airline themes -> https://github.com/vim-airline/vim-airline/wiki/Screenshots
 
     let g:ale_fixers = {
                 \'rust': ['rustfmt'],
@@ -398,6 +357,111 @@ function! SettingPlugins()
 
 endfunction
 
+function! Vim8Setup()
+    " mapping [ normal-mode ]
+    nnoremap <C-W>% <C-W>:below vertical terminal<CR>
+    nnoremap <C-W>" <C-W>:below terminal<CR>
+
+    " mapping [ terminal-mode ]
+    tnoremap <C-W>% <C-W>:below vertical terminal<CR>
+    tnoremap <C-W>" <C-W>:below terminal<CR>
+    packadd termdebug                              "use Terminal Plugin
+
+    "call VimIDE()
+    let g:termdebug_popup = 0
+    let g:termdebug_wide = 163                     "split windows Vertically
+endfunction
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"--------------------------------------------------------MY FUNCTIONS--------------------------------------------------------"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! VimIDE()
+    set termwinsize=12x0
+
+    tnoremap <C-H> <C-W><C-H>|                        " n_C-H       -> change windows in terminal mode (left)
+    tnoremap <C-J> <C-W><C-J>|                        " n_C-J       -> change windows in terminal mode (down)
+    tnoremap <C-K> <C-W><C-K>|                        " n_C-K       -> change windows in terminal mode (up)
+    "tnoremap <C-L> <C-W><C-L>|                        " n_C-L       -> change windows (right)
+
+    augroup VimIDE
+        autocmd VimEnter * NERDTree
+        autocmd VimEnter * wincmd p
+        below terminal
+    augroup END
+endfunction
+
+function! WriteForced()
+    execute ':silent w !sudo tee % > /dev/null'
+    edit!
+endfunction
+
+function! EditVIMRC()
+    execute ':silent tabedit $MYVIMRC'
+    echom '.vimrc'
+endfunction
+
+function! IsWSL()
+    if has('unix')
+        let lines = readfile('/proc/version')
+        if lines[0] =~? 'microsoft'
+            return 1
+        endif
+    endif
+    return 0
+endfunction
+
+function! YankToXclip()
+    execute ':normal! gv"yy'
+    if IsWSL()
+        call system('clip.exe', @y)
+    else
+        call system('xclip -selection clipboard', @y)
+    endif
+    if exists('$TMUX')
+        call system('tmux load-buffer -', @y)
+    endif
+endfunction
+
+function! ClearRegisters()
+    let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
+    for r in regs
+        call setreg(r, [])
+    endfor
+endfunction
+
+function! Bye()
+    if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+        :q
+    else
+        :bdelete
+    endif
+endfunction
+
+function! Nasmfmt()
+    """ Format the nasm file with the binary nasmfmt, repo -> https://github.com/yamnikov-oleg/nasmfmt
+    if executable('nasmfmt')
+        execute ':silent !nasmfmt -ci 35 %'
+        edit!   "don't need L<CR> for reload
+        redraw! "it's necesary you call the function manually
+    endif
+endfunction
+
+function! Foobar()
+    echom 'testing function'
+endfunction
+
+function! CurlLocal()
+    execute 'silent !curl -s "http://localhost:5000/api/v0/global_costs?start=2022-05-02&end=2022-05-09&format=html&responsible=Colombia" &>/tmp/index.html &' 
+    redraw!
+endfunction
+
+function! FormatSQL()
+    execute ':echom "jaja"'
+    execute ':s/select /SELECT\r\t/g'
+    execute ':%s/\(select\|\order\|by\|from\|where\|show\|grant\)/\U\1/ge'
+endfunction
+
 function! VimPlugInstall()
     silent !mkdir -p $HOME/.vim/undodir
     silent !mkdir -p $HOME/.vim/backupdir
@@ -420,53 +484,10 @@ function! VimPlugInstall()
         quit
     endif
 endfunction
-"coc mapping out of func
-inoremap <silent><expr> <TAB>
-            \ coc#pum#visible() ? coc#_select_confirm() :
-            \ coc#expandableOrJumpable() ?
-            \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-            \ CheckBackSpace() ? "\<TAB>" :
-            \ coc#refresh()
 
-function! CheckBackSpace() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"--------------------------------------------------------ENTRY POINT---------------------------------------------------------"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 call Main()
-
-let g:coc_snippet_next = '<tab>' 
-lua <<EOF
---require("lsp")
-require("treesitter")
-require("statusbar")
---require("completion")
---require("autoPairs")
-require("autoSave")
-require("telescope").load_extension("emoji")
-require('cmp-vars')
-require('luaSnip')
-require('vimConfig')
-require('changeSign')
---require("lspLines")
-require("imageNvim")
-require("mason").setup()
---require('lspHover')
---require("tokyonight")
---require("telescope").load_extension("emoji_fzf")
-EOF
-source $HOME/.config/nvim/config/cocNvim.vim
-source $HOME/.config/nvim/config/cocSnippet.vim
-source $HOME/.config/nvim/config/airline.vim
-source $HOME/.config/nvim/config/copilot.vim
-"source $HOME/.config/nvim/config/saga.vim
-"source $HOME/.config/nvim/config/tokyonight.vim
-"source $HOME/.config/nvim/config/space.vim
-"source $HOME/.config/nvim/config/emoji.vim
-
-"colorshemas 
-colorscheme tokyonight
-"colorscheme PaperColor
-"colorscheme blue
-"colorscheme  delek
 
