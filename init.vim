@@ -39,7 +39,9 @@ function! LoadPlugins()
     Plug 'tpope/vim-eunuch'
     Plug 'tpope/vim-fugitive'
     Plug 'BurntSushi/ripgrep'
-
+    Plug 'tpope/vim-fugitive'|                      "git integration
+    Plug 'pangloss/vim-javascript'|                 "improve highlighting for javascript
+    Plug 'vim-utils/vim-man'  
     Plug 'tomtom/tcomment_vim'
     "Nerd Tree cannot survive without this shit
     Plug 'preservim/nerdtree'
