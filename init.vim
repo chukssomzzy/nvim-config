@@ -167,10 +167,13 @@ function! Mappings()
     nnoremap <C-T>b :tab ba<CR>                         " n_C-t-b         -> tab from buffer
     nnoremap <C-T>o :tabonly<CR>                        " n_C-t-o         -> only one tab
     "buffer mapping
-    nnoremap <C-b>h :bprevious<CR>
-    nnoremap <C-b>l :bnext
-    nnoremap <C-b>q :bdelete<CR>
-
+    nnoremap <leader><leader>h :bprevious<CR>
+    nnoremap <leader><leader>l :bnext<CR> "next buffer
+    nnoremap <leader><leader>q :bdelete<CR>
+    "lsp mapping
+    nnoremap s<leader> :LspStop<CR> " stops LspStop 
+    nnoremap st<leader> :LspStart<CR> " start lsp
+    nnoremap r<leader> :LspRestart<CR> "restart lsp
     nnoremap <F3> :set wrap!<CR>:set wrap?<CR>|         " n_<F3>          -> toggle wrap
 
     nnoremap <F4> :set nu! list!<CR>|                   " n_<F4>          -> toggle numbers
@@ -211,7 +214,7 @@ function! Mappings()
     "nnoremap g<F1> :help <C-R><C-F><CR>|               " n_g<F1>        -> use insted K on the word open help for word under the cursor Ex. use g<F1> -> cmdline
     "nnoremap q: <nop>|                                 " n_q:           -> disable history windows (it gives me conficts)
     nnoremap <esc>j :move +1<CR>==|                     " n_Meta-j        -> move line below and format line
-    nnoremap <esc>k :move -2<CR>==|                     " n_Meta-k        -> move line above and format line
+    nnoremap <esc>k :move -2<CR>==|                           " n_Meta-k        -> move line above and format line
 
     " mapping  [ cmdline-mode ]
     cnoremap <C-A> <Home>|                              " c_Ctrl-A    -> go to Beginning of line
@@ -330,7 +333,7 @@ endfunction
 function! SettingPlugins()
     augroup Plugins_Filetypes
         autocmd!
-        autocmd FileType html,css,js,tsx,markdown EmmetInstall                                   "only use in css and html
+        autocmd FileType html,css,tsx,js EmmetInstall                                   "only use in css and html
         autocmd FileType nerdtree RainbowToggleOff                               "Disable Rainbow brackets in NERDTree
         autocmd Filetype c,sh let g:NERDSpaceDelims = 2                             "NerdCommenter spaces 1
         autocmd Filetype fugitive
@@ -344,7 +347,7 @@ function! SettingPlugins()
     let g:airline_left_sep = "\ue0bc"                                            "left icon as diagonal -> https://github.com/ryanoasis/powerline-extra-symbols#glyphs
     let g:airline_powerline_fonts = 1                                            "use the nerd-font
     let g:airline_right_sep = "\ue0be"                                           "right icon as diagonal
-    "" let g:airline_theme = 'minimalist'                                           "airline themes -> https://github.com/vim-airline/vim-airline/wiki/Screenshots
+    let g:airline_theme = 'minimalist'                                           "airline themes -> https://github.com/vim-airline/vim-airline/wiki/Screenshots
 
     let g:ale_fixers = {
                 \'rust': ['rustfmt'],
@@ -381,7 +384,7 @@ function! SettingPlugins()
     let g:neomake_shellcheck_args = ['-fgcc']                                    "[deprecated] fix ERROR with neomake and shellcheck
     let g:rainbow_active = 1                                                     "set to 0 if you want to enable it later via :RainbowToggle
     let g:user_emmet_install_global = 0                                          "disable emmet globally
-    let g:user_emmet_leader_key = '<Tab>'                                        "autocomplete with tab
+   " let g:user_emmet_leader_key = '<C-y>'                                    "autocomplete with tab
 
 
     let g:syntastic_c_compiler_options =
