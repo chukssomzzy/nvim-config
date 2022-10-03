@@ -1,14 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
 -- show hover doc and press twice will jumpto hover window
 vim.keymap.set("n", "K", require("lspsaga.hover").render_hover_doc, { silent = true })
 -- or use command
