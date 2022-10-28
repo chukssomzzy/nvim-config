@@ -16,11 +16,16 @@ function! LoadPlugins()
     call plug#begin(stdpath('data') . 'vimplug')
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-telescope/telescope.nvim'
+    "debugg adapter
+    Plug 'mfussenegger/nvim-dap'
+    "formerter neovim
+    Plug 'mhartington/formatter.nvim'
     "telescope load_extension 
     Plug 'xiyaowong/telescope-emoji.nvim'
     "Plug 'pschmitt/telescope-emoji-fzf.nvim'
     Plug 'neovim/nvim-lspconfig'
     Plug 'williamboman/mason.nvim'
+    Plug 'williamboman/mason-lspconfig.nvim'
     Plug 'hrsh7th/nvim-compe'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
