@@ -81,7 +81,7 @@ function! LoadPlugins()
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     "github copilo
-    Plug 'github/copilot.vim'
+    "Plug 'github/copilot.vim'
     "lint
     Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
     Plug 'Th3Whit3Wolf/space-nvim'
