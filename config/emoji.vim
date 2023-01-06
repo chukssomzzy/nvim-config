@@ -1,4 +1,4 @@
-  ab :white_check_mark: ✅
+ab :white_check_mark: ✅
 ab :warning: ⚠
 ab :bulb: 💡
 ab :pushpin: 📌

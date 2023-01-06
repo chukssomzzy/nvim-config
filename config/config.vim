@@ -89,6 +89,7 @@ function! LoadPlugins()
     Plug 'powerline/powerline' 
     Plug 'luochen1990/rainbow'|                     "color brackets  
     Plug 'samodostal/image.nvim'
+    Plug 'mfussenegger/nvim-dap-python'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'JuanDAC/betty-ale-vim'
     Plug 'dense-analysis/ale'|                  "linting program
@@ -149,8 +150,8 @@ function! Settings()
     set t_Co=256                                      "patch, set explicit 256 colors for term w/o 256-color
     set t_u7=""                                       "patch, resolve starting with REPLACE mode on (Windows problem) https://github.com/vim/vim/issues/6365#issuecomment-652299438
     set t_ut=""                                       "patch, resolve whitespace color problem https://github.com/microsoft/terminal/issues/832
-    set undodir=~/.vim/undodir                        "Undo directory for undo buffer
-    set backupdir=~/.vim/backupdir                    "backupdir
+    set undodir=~/.config/.nvim/undodir                        "Undo directory for undo buffer
+    set backupdir=~/.config/.nvim/backupdir                    "backupdir
     set backup
     set undofile "save undo buffer in (undodir)ectory 
     set foldlevelstart=99                             "Folds search about :help usr_28 
@@ -426,8 +427,8 @@ function! SettingPlugins()
 endfunction
 
 function! VimPlugInstall()
-    silent !mkdir -p $HOME/.vim/undodir
-    silent !mkdir -p $HOME/.vim/backupdir
+    silent !mkdir -p $HOME/.config/.nvim/undodir
+    silent !mkdir -p $HOME/.config/.nvim/backupdir
 
     if !executable('git')
         echohl WarningMsg | echomsg 'Warning: Vim-plug needs git to install the plugins' | echohl None
@@ -441,7 +442,7 @@ function! VimPlugInstall()
 
     if !exists('*plug#begin')
         silent !echo -e "\033[0m\033[31m\nOh no\!, Vim-plug manager is not found, Don't worry, I will install it\033[0m"
-        !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        ! sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
         call Main()
         PlugInstall
         quit
