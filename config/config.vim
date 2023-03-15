@@ -23,9 +23,9 @@ function! LoadPlugins()
     "telescope load_extension 
     Plug 'xiyaowong/telescope-emoji.nvim'
     "Plug 'pschmitt/telescope-emoji-fzf.nvim'
-    Plug 'neovim/nvim-lspconfig'
     Plug 'williamboman/mason.nvim'
     Plug 'williamboman/mason-lspconfig.nvim'
+    Plug 'neovim/nvim-lspconfig'
     Plug 'hrsh7th/nvim-compe'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -60,6 +60,8 @@ function! LoadPlugins()
     Plug 'L3MON4D3/luaSnip'
     Plug 'hrsh7th/cmp-cmdline'
     Plug 'hrsh7th/nvim-cmp'
+    "nvim  markdown preview"
+    Plug 'davidgranstrom/nvim-markdown-preview'
     "hover effect in nvim let try it
     Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
     "coc nvim
@@ -324,11 +326,13 @@ function! SettingFiletypes()
         autocmd Filetype ruby                   set expandtab sw=4 ts=4 sts=4
         autocmd Filetype python                 set expandtab sw=4 ts=4 sts=4 keywordprg=:!python3\ -m\ pydoc
         autocmd Filetype vim                    set expandtab sw=4 ts=4 sts=4
-
+        
         let g:html_indent_inctags = ''                      "autointent new line after enter
         let g:html_indent_autotags = 'p,html'               "no autoindent with format
-        autocmd Filetype htmldjango RainbowToggle
-        autocmd Filetype htmldjango EmmetInstall 
+        let g:user_emmet_install_global = 0
+        autocmd Filetype htmldjango, html RainbowToggle
+        autocmd Filetype htmldjango, html EmmetInstall
+        autocmd FileType markdown MarkdownPreview  "markdown preview 
 
         augroup highlight_over80
             autocmd!
@@ -408,9 +412,9 @@ function! SettingPlugins()
     let g:user_emmet_install_global = 0                                          "disable emmet globally
     let g:user_emmet_settings = {
                 \  'javascript.jsx' : {
-                    \      'extends' : 'jsx',
-                    \  },
-                    \}
+                \      'extends' : 'jsx',
+                \  },
+                \}
 
     let g:syntastic_c_compiler_options =
                 \'-std=gnu90 -Wall -Wextra -Werror -pedantic'

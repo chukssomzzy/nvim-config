@@ -70,7 +70,7 @@ local function documentHighlight(client, bufnr)
     end
 end
 
-local lsp_installer = require("nvim-lsp-installer")
+--[[local lsp_installer = require("nvim-lsp-installer")
 
 -- Register a handler that will be called for all installed servers.
 -- Alternatively, you may also register handlers on specific server instances instead (see example below).
@@ -113,6 +113,4 @@ local custom_lsp_attach = function(client)                                      
     --  a language server for Lua.
 
     -- set the path to the sumneko installation
-    
-
-
+    --]]
