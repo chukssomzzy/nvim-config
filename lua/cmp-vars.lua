@@ -84,7 +84,7 @@ cmp.setup({
         }
     })
 
---[[cmp spell 
+--cmp spell 
   cmp.setup({
     sources = {
       { name = 'spell' }
@@ -117,12 +117,12 @@ cmp.setup({
     sources = {
       { name = 'vim_lua' }
     }
-  })     
+  })   
 
-  --cmp nvim_lsp 
+ -- cmp nvim_lsp 
   cmp.setup({
     sources = {
       { name = 'nvim_lsp' }
     }
-}) --]]
+}) 
 
