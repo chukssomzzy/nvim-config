@@ -29,6 +29,7 @@ function! LoadPlugins()
     Plug 'hrsh7th/nvim-compe'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+    Plug 'nvim-treesitter/nvim-treesitter-context'
     Plug 'rafi/awesome-vim-colorschemes'
     Plug 'cocopon/iceberg.vim' 
     Plug 'NTBBloodbath/galaxyline.nvim', { 'branch': 'main' } "Maintained .config/nvim/init.vim-airline
@@ -100,7 +101,7 @@ function! LoadPlugins()
     if executable('ctags')
         Plug 'ludovicchabant/vim-gutentags' 
         "Plug 'codota/tabnine-vim'|                  "It needs clangd-9 to works
-        "Plug 'mg979/vim-visual-multi'               "Multi cursor
+        Plug 'mg979/vim-visual-multi'               "Multi cursor
     else
         Plug 'vim-syntastic/syntastic'|             "Ale alternative for vim 700
         Plug 'szw/vim-tags'|                        "create tags :TagsGenerate[!] it needs exuberant-tags package
