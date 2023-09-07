@@ -26,7 +26,7 @@ require("mason-lspconfig").setup_handlers {
  --[[   ["pyright"] = function ()
         require("pyright").setup {}
     end,                         ]]--
-    ["clangd"] = function ()
+    --[[["clangd"] = function ()
         require("clangd").setup {}
-    end,
+    end,]]--
 }

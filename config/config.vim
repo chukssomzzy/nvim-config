@@ -1,5 +1,3 @@
-
-
 function! Main()
     try
         call LoadPlugins()
@@ -49,7 +47,7 @@ function! LoadPlugins()
     Plug 'tomtom/tcomment_vim'
     "Nerd Tree (cnot) survive without this shit
     Plug 'preservim/nerdtree'
-    Plug 'preservim/nerdcommenter' 
+    Plug 'numToStr/Comment.nvim'
     "completion
     Plug 'hrsh7th/cmp-emoji'
     Plug 'hrsh7th/cmp-buffer'
@@ -276,11 +274,7 @@ function! Mappings()
     " pick color scheme
     nnoremap <Leader># <cmd>lua require'telescope.builtin'.colorscheme{}<CR>
 
-    " >> setup nerdcomment key bindings
-    let g:NERDCreateDefaultMappings = 0
-    let g:NERDSpaceDelims = 1
 
-    nnoremap <Leader>Cc <cmd>call NERDComment('n', 'toggle')<CR>
 
 
     " >> Lsp key bindings
@@ -289,15 +283,9 @@ function! Mappings()
     nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
     nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
     nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
-    nnoremap <silent> K     <cmd>Lspsaga hover_doc<CR>
     nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-    nnoremap <silent> <C-p> <cmd>Lspsaga diagnostic_jump_prev<CR>
-    nnoremap <silent> <C-n> <cmd>Lspsaga diagnostic_jump_next<CR>
-    nnoremap <silent> gf    <cmd>lua vim.lsp.buf.formatting()<CR>
+    nnoremap <silent> gf    <cmd>lua vim.lsp.buf.formatter()<CR>
     nnoremap <silent> gn    <cmd>lua vim.lsp.buf.rename()<CR>
-    nnoremap <silent> ga    <cmd>Lspsaga code_action<CR>
-    xnoremap <silent> gA   <cmd>Lspsaga range_code_action<CR>
-    nnoremap <silent> gs    <cmd>Lspsaga signature_help<CR> 
 endfunction
 "another fun
 function! SettingFiletypes()
@@ -326,12 +314,12 @@ function! SettingFiletypes()
         autocmd Filetype ruby                   set expandtab sw=4 ts=4 sts=4
         autocmd Filetype python                 set expandtab sw=4 ts=4 sts=4 keywordprg=:!python3\ -m\ pydoc
         autocmd Filetype vim                    set expandtab sw=4 ts=4 sts=4
-        
+
         let g:html_indent_inctags = ''                      "autointent new line after enter
         let g:html_indent_autotags = 'p,html'               "no autoindent with format
         let g:user_emmet_install_global = 0
-        autocmd Filetype htmldjango, html RainbowToggle
-        autocmd Filetype htmldjango, html EmmetInstall
+        autocmd Filetype htmldjango,html RainbowToggle
+        autocmd Filetype htmldjango EmmetInstall
         autocmd FileType markdown MarkdownPreview  "markdown preview 
 
         augroup highlight_over80
@@ -359,7 +347,7 @@ endfunction
 function! SettingPlugins()
     augroup Plugins_Filetypes
         autocmd!
-        "autocmd FileType html, css, javascript ,typescript.tsx ,markdown EmmetInstall                                   "only use in css and html
+        autocmd FileType html,css,javascript,typescript,markdown EmmetInstall                                   "only use in css and html
         autocmd FileType nerdtree RainbowToggleOff                               "Disable Rainbow brackets in NERDTree
         autocmd Filetype c,sh let g:NERDSpaceDelims = 2                             "NerdCommenter spaces 1
         autocmd Filetype fugitive
@@ -374,15 +362,27 @@ function! SettingPlugins()
     let g:airline_powerline_fonts = 1                                            "use the nerd-font
     let g:airline_right_sep = "\ue0be"                                           "right icon as diagonal
     "" let g:airline_theme = 'minimalist'                                           "airline themes -> https://github.com/vim-airline/vim-airline/wiki/Screenshots
+    let g:clipboard = {
+                \ 'name': 'xclip-xfcer-clipman',
+                \ 'copy': {
+                \ '+': 'xclip -selection clipboard',
+                \ '*': 'xclip -selection clipboard',
+                \},
+                \ 'paste': {
+                \ '+': 'xclip -selection clipboard -o',
+                \ '*': 'xclip -selection clipboard -o',
+                \ },
+                \ 'cache_enabled': 1,
+                \ }
 
     let g:ale_fixers = {
                 \'rust': ['rustfmt'],
                 \'python' : ['autopep8'],
-                \'html' : ['prettier'],
+                \'html' : ['prettier', 'rustywind'],
                 \'javascript': ['standard']}
     let g:ale_linters = {
                 \'rust': ['rustc', 'rls', 'cargo'],
-                \'python' : ['flake8'],
+                \'python' : ['isort', 'flake8', 'autoimport'],
                 \'c':['betty-style', 'betty-doc','gcc'],
                 \'javascript': ['standard']}
     let g:ale_c_cc_options = '-std=gnu90 -Wall -Wextra -Werror -pedantic'        "c options
@@ -475,5 +475,3 @@ function! EditVIMRC()
 endfunction
 
 call Main()
-
-
