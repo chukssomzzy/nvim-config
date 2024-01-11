@@ -308,13 +308,14 @@ function! SettingFiletypes()
         autocmd Filetype conf                   set expandtab
         autocmd Filetype html                   set expandtab sw=2 ts=2 sts=2
         autocmd Filetype htmldjango             set expandtab sw=4 ts=4 sts=4 
-        autocmd Filetype javascript             set expandtab sw=4 ts=4 sts=4
+        autocmd Filetype javascript             set expandtab sw=2 ts=2 sts=2
         autocmd Filetype yaml                   set expandtab sw=4 ts=4 sts=4
         autocmd Filetype python                 set expandtab sw=4 ts=4 sts=4 fdm=indent
         autocmd Filetype puppet                 set expandtab
         autocmd Filetype ruby                   set expandtab sw=4 ts=4 sts=4
         autocmd Filetype python                 set expandtab sw=4 ts=4 sts=4 keywordprg=:!python3\ -m\ pydoc
         autocmd Filetype vim                    set expandtab sw=4 ts=4 sts=4
+        autocmd Filetype typescript             set expandtab sw=2 ts=2 sts=2 
 
         let g:html_indent_inctags = ''                      "autointent new line after enter
         let g:html_indent_autotags = 'p,html'               "no autoindent with format
@@ -363,19 +364,30 @@ function! SettingPlugins()
     let g:airline_powerline_fonts = 1                                            "use the nerd-font
     let g:airline_right_sep = "\ue0be"                                           "right icon as diagonal
     "" let g:airline_theme = 'minimalist'                                           "airline themes -> https://github.com/vim-airline/vim-airline/wiki/Screenshots
+    " let g:clipboard = {
+    "             \ 'name': 'xclip-xfcer-clipman',
+    "             \ 'copy': {
+    "             \ '+': 'xclip -selection clipboard',
+    "             \ '*': 'xclip -selection clipboard',
+    "             \},
+    "             \ 'paste': {
+    "             \ '+': 'xclip -selection clipboard -o',
+    "             \ '*': 'xclip -selection clipboard -o',
+    "             \ },
+    "             \ 'cache_enabled': 1,
+    "             \ }
     let g:clipboard = {
                 \ 'name': 'xclip-xfcer-clipman',
                 \ 'copy': {
-                \ '+': 'xclip -selection clipboard',
-                \ '*': 'xclip -selection clipboard',
+                \ '+': 'termux-clipboard-set',
+                \ '*': 'termux-clipboard-set',
                 \},
                 \ 'paste': {
-                \ '+': 'xclip -selection clipboard -o',
-                \ '*': 'xclip -selection clipboard -o',
+                \ '+': 'termux-clipboard-get',
+                \ '*': 'termux-clipboard-get',
                 \ },
                 \ 'cache_enabled': 1,
-                \ }
-
+                \ } 
     let g:ale_fixers = {
                 \'rust': ['rustfmt'],
                 \'python' : ['autopep8'],
@@ -385,7 +397,9 @@ function! SettingPlugins()
                 \'rust': ['rustc', 'rls', 'cargo'],
                 \'python' : ['isort', 'flake8', 'autoimport'],
                 \'c':['betty-style', 'betty-doc','gcc'],
-                \'javascript': ['standard']}
+                \'javascript': ['standard', 'eslint'],
+                \'typescript': ['eslint']}
+
     let g:ale_c_cc_options = '-std=gnu90 -Wall -Wextra -Werror -pedantic'        "c options
     let g:ale_nasm_nasm_options = '-f elf64'
     let g:ale_fix_on_save = 1                                                    "fixautopep after save file

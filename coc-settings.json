@@ -1,7 +1,7 @@
 {
     "languageserver": {
-        "ccls": {
-            "command": "ccls",
+        "clangd": {
+            "command": "clangd",
             "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
             "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
             "initializationOptions": {
