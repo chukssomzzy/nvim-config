@@ -82,7 +82,7 @@ function! LoadPlugins()
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     "github copilo
-    "Plug 'github/copilot.vim'
+    Plug 'github/copilot.vim'
     "lint
     Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
     Plug 'Th3Whit3Wolf/space-nvim'
@@ -309,7 +309,7 @@ function! SettingFiletypes()
         autocmd Filetype html                   set expandtab sw=2 ts=2 sts=2
         autocmd Filetype htmldjango             set expandtab sw=4 ts=4 sts=4 
         autocmd Filetype javascript             set expandtab sw=2 ts=2 sts=2
-        autocmd Filetype yaml                   set expandtab sw=4 ts=4 sts=4
+        autocmd Filetype yaml                   set expandtab sw=2 ts=2 sts=2
         autocmd Filetype python                 set expandtab sw=4 ts=4 sts=4 fdm=indent
         autocmd Filetype puppet                 set expandtab
         autocmd Filetype ruby                   set expandtab sw=4 ts=4 sts=4
@@ -392,12 +392,12 @@ function! SettingPlugins()
                 \'rust': ['rustfmt'],
                 \'python' : ['autopep8'],
                 \'html' : ['prettier', 'rustywind'],
-                \'javascript': ['standard']}
+                \'javascript': ['eslint']}
     let g:ale_linters = {
                 \'rust': ['rustc', 'rls', 'cargo'],
                 \'python' : ['isort', 'flake8', 'autoimport'],
                 \'c':['betty-style', 'betty-doc','gcc'],
-                \'javascript': ['standard', 'eslint'],
+                \'javascript': ['eslint'],
                 \'typescript': ['eslint']}
 
     let g:ale_c_cc_options = '-std=gnu90 -Wall -Wextra -Werror -pedantic'        "c options
