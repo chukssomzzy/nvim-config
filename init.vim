@@ -24,9 +24,6 @@ require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
 --require("telescope").load_extension("emoji_fzf")
 require("tokyonight")
 require("lspconfig_vim")
-
-require("phpactor")
-
 EOF
 source $HOME/.config/nvim/config/cocNvim.vim
 source $HOME/.config/nvim/config/cocSnippet.vim

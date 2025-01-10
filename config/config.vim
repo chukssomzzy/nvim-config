@@ -4,19 +4,21 @@ function! Main()
     catch
         call VimPlugInstall()
     endtry
+
     call Settings()
     call Mappings()
     call SettingFiletypes()
     call SettingPlugins()
-endfunction 
+endfunction
+
 function! LoadPlugins()
     " >> load plugins
     call plug#begin(stdpath('data') . 'vimplug')
     "js doc 
     Plug 'heavenshell/vim-jsdoc', {
-    \ 'for': ['javascript', 'javascript.jsx','typescript'],
-    \ 'do': 'make install'
-    \}     
+                \ 'for': ['javascript', 'javascript.jsx','typescript'],
+                \ 'do': 'make install'
+                \}     
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'mfussenegger/nvim-dap'
@@ -113,7 +115,7 @@ function! LoadPlugins()
         Plug 'vim-syntastic/syntastic'|             "Ale alternative for vim 700
         Plug 'szw/vim-tags'|                        "create tags :TagsGenerate[!] it needs exuberant-tags package
         if executable('autopep8')
-            "Plug 'tell-k/vim-autopep8'|             "Edit files acording to pep8
+            "Plug 'tell-k/vim-autopep8'|             "Edit files according to pep8
         endif
     endif
     "Plug 'Athesto/vim-betty'|
@@ -126,6 +128,7 @@ endfunction
 " basic settings
 set encoding=utf-8                                "encoding file for unicodes and accents
 scriptencoding utf-8 
+
 function! Settings()
     syntax on
     set autoindent
@@ -173,7 +176,8 @@ function! Settings()
         colorscheme tokyonight
     endtry
 
-endfunctio
+endfunction
+
 function! CustomList()
     set list                                            "show special chars
     set listchars=|                                     "resetListchars
@@ -186,6 +190,7 @@ function! CustomList()
     let g:mySKfg=235
     execute 'hi SpecialKey ctermfg ='.g:mySKfg
 endfunction
+
 function! Mappings()
     let g:mapleader=" "
     " >> Telescope bindings
@@ -209,8 +214,8 @@ function! Mappings()
     nnoremap <F3> :set wrap!<CR>:set wrap?<CR>|         " n_<F3>          -> toggle wrap
 
     nnoremap <F4> :set nu! list!<CR>|                   " n_<F4>          -> toggle numbers
-    nnoremap <esc>h :tabrewind<CR>|                   " n_M-h           -> goto previous tab (more confortable)
-    nnoremap <esc>l :tabnext<CR>|                       " n_M-l           -> goto next tab (more confortable)
+    nnoremap <esc>h :tabrewind<CR>|                   " n_M-h           -> goto previous tab (more comfortable)
+    nnoremap <esc>l :tabnext<CR>|                       " n_M-l           -> goto next tab (more comfortable)
     nnoremap <leader><esc> :nohl<CR>|                   " n_<leader><esc> -> clean format
     nnoremap <leader>U magUiw`a|                        " n_<leader>U     -> uppecase word
     "nnoremap <leader><leader>w :call WriteForced()<CR>| " n_<leader><leader>w -> sudo save
@@ -232,7 +237,7 @@ function! Mappings()
     nnoremap <leader>w :w<CR>|                          " n_<leader>w     -> save
     nnoremap <leader>xe :call EditVIMRC()<CR>|          " n_<leader>xe    -> edit VIMRC
     nnoremap G Gzz|                                     " n_G             -> center windows after search end nnoremap H :bprevious<CR>zz|                        " n_Meta-h        -> goto previous buffer (more confortable)
-    nnoremap L :bnext<CR>zz|                            " n_Meta-l        -> goto next buffer (more confortable)
+    nnoremap L :bnext<CR>zz|                            " n_Meta-l        -> goto next buffer (more comfortable)
     nnoremap gp `[v`]|                                  " n_gp            -> select pasted text
     "nnoremap R <Esc>|                                   " n_R            -> patch, Disable ReplaceMode (Fix Windows OS Problems)
     nnoremap [b :bprevious<CR>|                         " n_[-b           -> goto previous buffer
@@ -241,8 +246,8 @@ function! Mappings()
     nnoremap ]b :bnext<CR>|                             " n_]-K           -> goto next buffer
     nnoremap ]e :ALENext<CR>|                           " n_]-K           -> goto next ALE Error
     nnoremap ]t :tabnext<CR>|                           " n_]-K           -> goto next tab
-    "nnoremap g<F1> :help <C-R><C-F><CR>|               " n_g<F1>        -> use insted K on the word open help for word under the cursor Ex. use g<F1> -> cmdline
-    "nnoremap q: <nop>|                                 " n_q:           -> disable history windows (it gives me conficts)
+    "nnoremap g<F1> :help <C-R><C-F><CR>|               " n_g<F1>        -> use instead K on the word open help for word under the cursor Ex. use g<F1> -> cmdline
+    "nnoremap q: <nop>|                                 " n_q:           -> disable history windows (it gives me conflicts)
     nnoremap <esc>j :move +1<CR>==|                     " n_Meta-j        -> move line below and format line
     nnoremap <esc>k :move -2<CR>==|                           " n_Meta-k        -> move line above and format line
 
@@ -298,7 +303,7 @@ function! Mappings()
     nnoremap <silent> gn    <cmd>lua vim.lsp.buf.rename()<CR>
     nmap <silent> <C-l> <Plug>(jsdoc)
 endfunction
-"another fun
+
 function! SettingFiletypes()
     augroup Filetypes
         autocmd!
@@ -356,6 +361,7 @@ function! SettingFiletypes()
         augroup END
     augroup END
 endfunction
+
 "settings plugin
 function! SettingPlugins()
     augroup Plugins_Filetypes
@@ -387,30 +393,21 @@ function! SettingPlugins()
                 \ },
                 \ 'cache_enabled': 1,
                 \ }
-    " let g:clipboard = {
-    "             \ 'name': 'xclip-xfcer-clipman',
-    "             \ 'copy': {
-    "             \ '+': 'termux-clipboard-set',
-    "             \ '*': 'termux-clipboard-set',
-    "             \},
-    "             \ 'paste': {
-    "             \ '+': 'termux-clipboard-get',
-    "             \ '*': 'termux-clipboard-get',
-    "             \ },
-    "             \ 'cache_enabled': 1,
-    "             \ } 
+
     let g:ale_fixers = {
                 \'rust': ['rustfmt'],
                 \'python' : ['autopep8'],
                 \'html' : ['prettier', 'rustywind'],
-                \'javascript': ['eslint']}
+                \'javascript': ['eslint'],
+                \}
+
     let g:ale_linters = {
                 \'rust': ['rustc', 'rls', 'cargo'],
                 \'python' : ['isort', 'flake8', 'autoimport'],
                 \'c':['betty-style', 'betty-doc','gcc'],
-
                 \'javascript': ['eslint', 'standard'],
-                \'typescript': ['eslint']}
+                \'typescript': ['eslint'],
+                \}
 
     let g:ale_c_cc_options = '-std=gnu90 -Wall -Wextra -Werror -pedantic'        "c options
     let g:ale_nasm_nasm_options = '-f elf64'
@@ -481,6 +478,7 @@ function! VimPlugInstall()
         quit
     endif
 endfunction
+
 function! Bye()
     if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
         :q
@@ -495,9 +493,10 @@ function! Nasmfmt()
     if executable('nasmfmt')
         execute ':silent !nasmfmt -ci 35 %'
         edit!   "don't need L<CR> for reload
-        redraw! "it's necesary you call the function manually
+        redraw! "it's necessary you call the function manually
     endif
 endfunction
+
 function! EditVIMRC()
     execute ':silent tabedit $MYVIMRC'
     echom '.vimrc'
