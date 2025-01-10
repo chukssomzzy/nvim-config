@@ -12,9 +12,13 @@ endfunction
 function! LoadPlugins()
     " >> load plugins
     call plug#begin(stdpath('data') . 'vimplug')
+    "js doc 
+    Plug 'heavenshell/vim-jsdoc', {
+    \ 'for': ['javascript', 'javascript.jsx','typescript'],
+    \ 'do': 'make install'
+    \}     
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-telescope/telescope.nvim'
-    "debugg adapter
     Plug 'mfussenegger/nvim-dap'
     "formerter neovim
     Plug 'mhartington/formatter.nvim'
@@ -27,9 +31,10 @@ function! LoadPlugins()
     Plug 'hrsh7th/nvim-compe'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-    Plug 'nvim-treesitter/nvim-treesitter-context'
+    "Plug 'nvim-treesitter/nvim-treesitter-context'
     Plug 'rafi/awesome-vim-colorschemes'
-    Plug 'cocopon/iceberg.vim' 
+    Plug 'cocopon/iceberg.vim'
+    "Plug 'xavierchow/vim-swagger-preview' "swagger plugin for vim
     Plug 'NTBBloodbath/galaxyline.nvim', { 'branch': 'main' } "Maintained .config/nvim/init.vim-airline
     Plug 'kyazdani42/nvim-web-devicons'  " needed for galaxyline icons
     "theme
@@ -37,6 +42,8 @@ function! LoadPlugins()
     Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
     Plug 'nikvdp/neomux'
 
+    "dbml plugin  
+    Plug 'jidn/vim-dbml'
     Plug 'tpope/vim-ragtag'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-unimpaired'
@@ -62,7 +69,7 @@ function! LoadPlugins()
     "nvim  markdown preview"
     Plug 'davidgranstrom/nvim-markdown-preview'
     "hover effect in nvim let try it
-    Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
+    "Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
     "coc nvim
     " Use release branch (recommend)
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -96,6 +103,8 @@ function! LoadPlugins()
     Plug 'dense-analysis/ale'|                  "linting program
     Plug 'chrisbra/changesplugin'|              "show changes in git
     Plug 'rust-lang/rust.vim'
+    "waka time
+    Plug 'wakatime/vim-wakatime'
     if executable('ctags')
         Plug 'ludovicchabant/vim-gutentags' 
         "Plug 'codota/tabnine-vim'|                  "It needs clangd-9 to works
@@ -287,6 +296,7 @@ function! Mappings()
     nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
     nnoremap <silent> gf    <cmd>lua vim.lsp.buf.formatter()<CR>
     nnoremap <silent> gn    <cmd>lua vim.lsp.buf.rename()<CR>
+    nmap <silent> <C-l> <Plug>(jsdoc)
 endfunction
 "another fun
 function! SettingFiletypes()
@@ -309,7 +319,8 @@ function! SettingFiletypes()
         autocmd Filetype html                   set expandtab sw=2 ts=2 sts=2
         autocmd Filetype htmldjango             set expandtab sw=4 ts=4 sts=4 
         autocmd Filetype javascript             set expandtab sw=2 ts=2 sts=2
-        autocmd Filetype yaml                   set expandtab sw=2 ts=2 sts=2
+
+        autocmd Filetype yaml                   set expandtab sw=2 ts=2 sts=2 
         autocmd Filetype python                 set expandtab sw=4 ts=4 sts=4 fdm=indent
         autocmd Filetype puppet                 set expandtab
         autocmd Filetype ruby                   set expandtab sw=4 ts=4 sts=4
@@ -364,30 +375,30 @@ function! SettingPlugins()
     let g:airline_powerline_fonts = 1                                            "use the nerd-font
     let g:airline_right_sep = "\ue0be"                                           "right icon as diagonal
     "" let g:airline_theme = 'minimalist'                                           "airline themes -> https://github.com/vim-airline/vim-airline/wiki/Screenshots
-    " let g:clipboard = {
-    "             \ 'name': 'xclip-xfcer-clipman',
-    "             \ 'copy': {
-    "             \ '+': 'xclip -selection clipboard',
-    "             \ '*': 'xclip -selection clipboard',
-    "             \},
-    "             \ 'paste': {
-    "             \ '+': 'xclip -selection clipboard -o',
-    "             \ '*': 'xclip -selection clipboard -o',
-    "             \ },
-    "             \ 'cache_enabled': 1,
-    "             \ }
     let g:clipboard = {
                 \ 'name': 'xclip-xfcer-clipman',
                 \ 'copy': {
-                \ '+': 'termux-clipboard-set',
-                \ '*': 'termux-clipboard-set',
+                \ '+': 'xclip -selection clipboard',
+                \ '*': 'xclip -selection clipboard',
                 \},
                 \ 'paste': {
-                \ '+': 'termux-clipboard-get',
-                \ '*': 'termux-clipboard-get',
+                \ '+': 'xclip -selection clipboard -o',
+                \ '*': 'xclip -selection clipboard -o',
                 \ },
                 \ 'cache_enabled': 1,
-                \ } 
+                \ }
+    " let g:clipboard = {
+    "             \ 'name': 'xclip-xfcer-clipman',
+    "             \ 'copy': {
+    "             \ '+': 'termux-clipboard-set',
+    "             \ '*': 'termux-clipboard-set',
+    "             \},
+    "             \ 'paste': {
+    "             \ '+': 'termux-clipboard-get',
+    "             \ '*': 'termux-clipboard-get',
+    "             \ },
+    "             \ 'cache_enabled': 1,
+    "             \ } 
     let g:ale_fixers = {
                 \'rust': ['rustfmt'],
                 \'python' : ['autopep8'],
@@ -397,7 +408,8 @@ function! SettingPlugins()
                 \'rust': ['rustc', 'rls', 'cargo'],
                 \'python' : ['isort', 'flake8', 'autoimport'],
                 \'c':['betty-style', 'betty-doc','gcc'],
-                \'javascript': ['eslint'],
+
+                \'javascript': ['eslint', 'standard'],
                 \'typescript': ['eslint']}
 
     let g:ale_c_cc_options = '-std=gnu90 -Wall -Wextra -Werror -pedantic'        "c options
@@ -406,11 +418,11 @@ function! SettingPlugins()
     let g:ale_javascript_standard_executable = 'semistandard'                    "set semistandard executable as standard
     let g:ale_javascript_standard_options = '--global $'                         "disable jquery warning
     let g:ale_javascript_standard_use_global = 1
-    "let g:ale_python_pycodestyle_executable = 'pep8'
+    let g:ale_python_pycodestyle_executable = 'pep8'
     let g:ale_python_flake8_use_global = 1
     let g:ale_python_flake8_options = '--ignore=E241,E501'                            "501(80chars)
     "let g:ale_python_flake8_options = '--ignore=E241,E402,E501'
-    let g:ale_set_highlights = 0 " Disable highligting
+    let g:ale_set_highlights = 0 " Disable highlights
     set omnifunc=ale#completion#OmniFunc
 
     let g:NERDCustomDelimiters = { 'nroff': { 'left': '.\\"'} }                  "NERDCommenter has problems with backslash
@@ -430,17 +442,19 @@ function! SettingPlugins()
                 \      'extends' : 'jsx',
                 \  },
                 \}
-
+    let g:LanguageClient_serverCommands = {
+                \ 'sql': ['sql-language-server', 'up', '--method', 'stdio'],
+                \ }
     let g:syntastic_c_compiler_options =
                 \'-std=gnu90 -Wall -Wextra -Werror -pedantic'
 
     let g:NERDTreeNaturalSort = 1                                                "NerdTree sort 1, 2, 3, 100, 1000
     augroup myBufenter
         autocmd!
-        "autocmd bufwinenter * silent NERDTreeMirror                                  "Open the existing NERDTree on each new tab.
-        autocmd bufenter * if (winnr("$") == 1 &&
-                    \exists("b:NERDTree") &&
-                    \b:NERDTree.isTabTree()) | q | endif                         "close all if there is only one window
+        autocmd bufwinenter * silent NERDTreeMirror                                  "Open the existing NERDTree on each new tab.
+        " autocmd bufenter * if (winnr("$") == 1 &&
+        "             \exists("b:NERDTree") &&
+        "             \b:NERDTree.isTabTree()) | q | endif                         "close all if there is only one window
     augroup END
 
 endfunction
