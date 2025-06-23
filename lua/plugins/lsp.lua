@@ -53,10 +53,9 @@ return {
         map('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = 'LSP: Show References' })
         map('n', '<leader>lr', vim.lsp.buf.rename, { buffer = bufnr, desc = 'LSP: Rename' })
         map({ 'n', 'v' }, '<leader>la', vim.lsp.buf.code_action, { buffer = bufnr, desc = 'LSP: Code Action' })
-        map('n', '<leader>lf', function() vim.lsp.buf.format({ async = true }) end, { buffer = bufnr, desc = 'LSP: Format code' })
-      end
+ end
 
-      -- Configure diagnostic signs and floating window border.
+     -- Configure diagnostic signs and floating window border.
       vim.diagnostic.config({
         virtual_text = false,
         signs = true,

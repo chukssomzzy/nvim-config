@@ -33,8 +33,29 @@ map('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true, desc = 'Exit t
 -- Toggle NERDTree file explorer
 map('n', '<leader>h', '<cmd>NERDTreeToggle<CR>', { desc = 'Toggle file explorer' })
 
+-- Format the current buffer with conform.nvim
+map({ 'n', 'v' }, '<leader>i', function()
+  require('conform').format({ async = true, lsp_fallback = true })
+end, { desc = 'Format buffer' })
+
+
 -- ============================================================================
--- Custom Functions & Mappings
+-- Diagnostics Keymappings (The Fix)
+-- ============================================================================
+-- We use mnemonic keys that are unlikely to conflict with other plugins.
+
+-- Show diagnostic popup for the current line
+map('n', '<leader>ld', vim.diagnostic.open_float, { desc = 'Show line diagnostics' })
+
+-- Go to the previous diagnostic
+map('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
+
+-- Go to the next diagnostic
+map('n', '<leader>dn', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
+
+
+-- ============================================================================
+--Custom Functions & Mappings
 -- ============================================================================
 
 --- Smartly closes a buffer or quits Neovim if it's the last buffer.

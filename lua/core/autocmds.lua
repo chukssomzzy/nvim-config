@@ -86,3 +86,22 @@ create_augroup('GeneralAutocmds', {
     end,
   },
 })
+
+-- ============================================================================
+-- Diagnostic Hover
+-- ============================================================================
+-- This autocommand will automatically open the diagnostic float window
+-- when the cursor rests on a line with an error or warning.
+create_augroup('DiagnosticHover', {
+  {
+    event = 'CursorHold',
+    pattern = '*',
+    desc = 'Show diagnostic popup on hover',
+    callback = function()
+      vim.diagnostic.open_float(nil, {
+        focus = false, -- Don't steal focus from the editor
+        scope = 'cursor',
+      })
+    end,
+  },
+})

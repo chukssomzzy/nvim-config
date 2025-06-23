@@ -33,6 +33,7 @@ require('lazy').setup({
     { import = 'plugins.ui' },
     { import = 'plugins.editing' },
     { import = 'plugins.tools' },
+    { import = 'plugins.formatting' },
   },
   -- Configure lazy.nvim options
   ui = {
