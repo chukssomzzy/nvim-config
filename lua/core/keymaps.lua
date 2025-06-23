@@ -1,0 +1,58 @@
+local map = vim.keymap.set
+
+-- Clear search highlight on <Esc>
+map('n', '<Esc>', '<cmd>nohlsearch<CR>', { noremap = true, silent = true })
+
+-- File and buffer management
+map('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save file' })
+map('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = 'Close buffer' })
+map('n', '[b', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
+map('n', ']b', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+
+-- Window Navigation
+map('n', '<C-h>', '<C-w>h', { desc = 'Move to left window' })
+map('n', '<C-j>', '<C-w>j', { desc = 'Move to down window' })
+map('n', '<C-k>', '<C-w>k', { desc = 'Move to up window' })
+map('n', '<C-l>', '<C-w>l', { desc = 'Move to right window' })
+
+-- Line moving
+map('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move line down' })
+map('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move line up' })
+map('v', '<A-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
+map('v', '<A-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
+
+-- Terminal
+map('n', '<leader>tt', '<cmd>new --size=10 | terminal<CR>', { desc = 'Open horizontal terminal' })
+map('n', '<leader>tv', '<cmd>vnew --size=40 | terminal<CR>', { desc = 'Open vertical terminal' })
+map('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true, desc = 'Exit terminal mode' })
+
+-- ============================================================================
+-- Plugin Keymappings
+-- ============================================================================
+
+-- Toggle NERDTree file explorer
+map('n', '<leader>h', '<cmd>NERDTreeToggle<CR>', { desc = 'Toggle file explorer' })
+
+-- ============================================================================
+-- Custom Functions & Mappings
+-- ============================================================================
+
+--- Smartly closes a buffer or quits Neovim if it's the last buffer.
+local function smart_quit()
+  local buflist = vim.fn.getbufinfo({ buflisted = 1 })
+  if #buflist > 1 then
+    vim.cmd('bdelete')
+  else
+    vim.cmd('quit')
+  end
+end
+
+-- Map the new smart_quit function
+map('n', '<leader>q', smart_quit, { desc = 'Smart Quit (bdelete or quit)' })
+
+--- Edit the Neovim configuration
+local function edit_config()
+  vim.cmd('e ~/.config/nvim/init.lua')
+end
+
+map('n', '<leader>ec', edit_config, { desc = 'Edit Neovim Config' })
