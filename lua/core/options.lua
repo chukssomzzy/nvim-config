@@ -9,21 +9,21 @@ opt.clipboard = 'unnamedplus'
 
 -- Smartly configure clipboard for Termux vs. Desktop Linux
 if vim.fn.has('unix') == 1 then
-  if vim.fn.executable('termux-clipboard-get') == 1 then
-    g.clipboard = {
-      name = 'termux-clipboard',
-      copy = { ['+'] = 'termux-clipboard-set', ['*'] = 'termux-clipboard-set' },
-      paste = { ['+'] = 'termux-clipboard-get', ['*'] = 'termux-clipboard-get' },
-      cache_enabled = 1,
-    }
-  elseif vim.fn.executable('xclip') == 1 then
-    g.clipboard = {
-      name = 'xclip-clipboard',
-      copy = { ['+'] = 'xclip -selection clipboard', ['*'] = 'xclip -selection clipboard' },
-      paste = { ['+'] = 'xclip -selection clipboard -o', ['*'] = 'xclip -selection clipboard -o' },
-      cache_enabled = 1,
-    }
-  end
+    if vim.fn.executable('termux-clipboard-get') == 1 then
+        g.clipboard = {
+            name = 'termux-clipboard',
+            copy = { ['+'] = 'termux-clipboard-set', ['*'] = 'termux-clipboard-set' },
+            paste = { ['+'] = 'termux-clipboard-get', ['*'] = 'termux-clipboard-get' },
+            cache_enabled = 1,
+        }
+    elseif vim.fn.executable('xclip') == 1 then
+        g.clipboard = {
+            name = 'xclip-clipboard',
+            copy = { ['+'] = 'xclip -selection clipboard', ['*'] = 'xclip -selection clipboard' },
+            paste = { ['+'] = 'xclip -selection clipboard -o', ['*'] = 'xclip -selection clipboard -o' },
+            cache_enabled = 1,
+        }
+    end
 end
 
 -- ============================================================================
@@ -48,11 +48,24 @@ opt.laststatus = 3
 opt.cmdheight = 1
 opt.showmode = false
 
+-- Set cursor shape for different modes
+opt.guicursor = 'n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50'
+
+-- Configure how special characters are displayed
+opt.list = true
+opt.listchars = {
+    tab = '│·',
+    trail = '·',
+    extends = '»',
+    precedes = '«',
+    nbsp = '␣',
+}
+
 -- ============================================================================
 -- Tabs & Indentation
 -- ============================================================================
-opt.tabstop = 4 -- Default tab size
-opt.shiftwidth = 4 -- Default indent size
+opt.tabstop = 4      -- Default tab size
+opt.shiftwidth = 4   -- Default indent size
 opt.softtabstop = 4
 opt.expandtab = true -- Use spaces by default
 opt.autoindent = true

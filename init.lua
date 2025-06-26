@@ -6,14 +6,14 @@ vim.g.maplocalleader = ' '
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable',
-    lazypath,
-  })
+    vim.fn.system({
+        'git',
+        'clone',
+        '--filter=blob:none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable',
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -24,20 +24,21 @@ require('core.autocmds')
 
 -- Setup and load plugins via lazy.nvim
 require('lazy').setup({
-  spec = {
-    -- Import all plugin configurations from the plugins directory
-    { import = 'plugins.lsp' },
-    { import = 'plugins.cmp' },
-    { import = 'plugins.telescope' },
-    { import = 'plugins.treesitter' },
-    { import = 'plugins.ui' },
-    { import = 'plugins.editing' },
-    { import = 'plugins.tools' },
-    { import = 'plugins.formatting' },
-    { import = 'plugins.dap' },
-  },
-  -- Configure lazy.nvim options
-  ui = {
-    border = 'rounded',
-  },
+    spec = {
+        -- Import all plugin configurations from the plugins directory
+        { import = 'plugins.lsp' },
+        { import = 'plugins.cmp' },
+        { import = 'plugins.telescope' },
+        { import = 'plugins.treesitter' },
+        { import = 'plugins.ui' },
+        { import = 'plugins.editing' },
+        { import = 'plugins.tools' },
+        { import = 'plugins.formatting' },
+        { import = 'plugins.dap' },
+        { import = 'plugins.extended' },
+    },
+    -- Configure lazy.nvim options
+    ui = {
+        border = 'rounded',
+    },
 })
