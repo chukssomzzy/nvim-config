@@ -3,6 +3,10 @@ local map = vim.keymap.set
 -- Clear search highlight on <Esc>
 map('n', '<Esc>', '<cmd>nohlsearch<CR>', { noremap = true, silent = true })
 
+map('n', '<F2>', function()
+  vim.opt.wrap = not vim.opt.wrap:get()
+end, { desc = 'Toggle line wrap' })
+
 -- File and buffer management
 map('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save file' })
 map('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = 'Close buffer' })

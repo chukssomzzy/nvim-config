@@ -30,6 +30,7 @@ end
 -- General & UI Options
 -- ============================================================================
 opt.mouse = 'a'
+opt.wrap = false
 opt.swapfile = false
 opt.undofile = true
 opt.undodir = vim.fn.stdpath('data') .. '/undodir'
