@@ -59,6 +59,9 @@ map("n", "<leader>dp", vim.diagnostic.goto_prev, { desc = "Go to previous diagno
 -- Go to the next diagnostic
 map("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 
+-- Git blame mappings
+map("v", "<leader>gb", ":'<,'>Git blame<CR>", { desc = "Git Blame selection" })
+
 -- ============================================================================
 --Custom Functions & Mappings
 -- ============================================================================
@@ -181,4 +184,39 @@ local function show_config_help()
 end
 
 -- Map the keybinding to the new, robust function
-map("n", "<leader>g", show_config_help, { desc = "Show Config Help (README.md)" })
+map("n", "<leader>/", show_config_help, { desc = "Show Config Help (README.md)" })
+
+-- ============================================================================
+-- Telescope Keymappings
+-- ===========================================================================
+
+map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })
+map("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find buffers" })
+map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help tags" })
+map("n", "<leader>fc", "<cmd>Telescope commands<cr>", { desc = "Find commands" })
+map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>", { desc = "LSP Document Symbols" })
+map("n", "<leader>m", "<cmd>Telescope oldfiles<cr>", { desc = "Find old files" })
+map("n", "<leader>sd", "<cmd>Telescope diagnostics<cr>", { desc = "Search Diagnostics" })
+map("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { desc = "Git Status" })
+map("n", "<leader>sk", "<cmd>Telescope keymaps<cr>", { desc = "Search Keymaps" })
+
+-- ============================================================================
+-- Copilot Chat Keymappings
+-- ============================================================================
+
+-- General Chat: Ask a question
+-- Note the space at the end to allow you to type your question directly
+map("n", "<leader>cc", "<cmd>CopilotChat<CR>", { desc = "Copilot - Chat" })
+
+-- Visual Mode Chat: Ask about the selected code
+map("v", "<leader>cc", ":'<,'>CopilotChat<CR>", { desc = "Copilot - Chat with selection" })
+
+-- Quick Chat Toggle
+map("n", "<leader>cq", "<cmd>CopilotChatToggle<CR>", { desc = "Copilot - Toggle Quick Chat" })
+
+-- Common Chat Actions
+map("n", "<leader>ce", "<cmd>CopilotChatExplain<CR>", { desc = "Copilot - Explain code" })
+map("n", "<leader>ct", "<cmd>CopilotChatTests<CR>", { desc = "Copilot - Generate tests" })
+map("n", "<leader>cd", "<cmd>CopilotChatDocs<CR>", { desc = "Copilot - Generate docs" })
+map("n", "<leader>co", "<cmd>CopilotChatOptimize<CR>", { desc = "Copilot - Optimize code" })
