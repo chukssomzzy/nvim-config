@@ -126,33 +126,33 @@ return {
 			end, { desc = "Insert file reference" })
 
 			-- Enhanced CopilotChat command keymaps
-			vim.keymap.set("n", "<leader>ccq", function()
+			vim.keymap.set("n", "<leader>coq", function()
 				chat.ask(vim.fn.input("Quick Chat: "), { selection = select.buffer })
 			end, { desc = "CopilotChat - Quick chat with buffer" })
 
-			vim.keymap.set("n", "<leader>cco", "<cmd>CopilotChatOpen<cr>", { desc = "CopilotChat - Open chat" })
-			vim.keymap.set("n", "<leader>cct", "<cmd>CopilotChatToggle<cr>", { desc = "CopilotChat - Toggle chat" })
+			vim.keymap.set("n", "<leader>coo", "<cmd>CopilotChatOpen<cr>", { desc = "CopilotChat - Open chat" })
+			vim.keymap.set("n", "<leader>cot", "<cmd>CopilotChatToggle<cr>", { desc = "CopilotChat - Toggle chat" })
 			
-			vim.keymap.set("n", "<leader>ccp", function()
+			vim.keymap.set("n", "<leader>cop", function()
 				local actions = require("CopilotChat.actions")
 				require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
 			end, { desc = "CopilotChat - Prompt actions" })
 			
-			vim.keymap.set("n", "<leader>cch", function()
+			vim.keymap.set("n", "<leader>coh", function()
 				local actions = require("CopilotChat.actions")
 				require("CopilotChat.integrations.telescope").pick(actions.help_actions())
 			end, { desc = "CopilotChat - Help actions" })
 
 			-- Code-specific commands
-			vim.keymap.set({ "n", "v" }, "<leader>cce", "<cmd>CopilotChatExplain<cr>", { desc = "CopilotChat - Explain code" })
-			vim.keymap.set({ "n", "v" }, "<leader>ccr", "<cmd>CopilotChatReview<cr>", { desc = "CopilotChat - Review code" })
-			vim.keymap.set({ "n", "v" }, "<leader>ccf", "<cmd>CopilotChatFix<cr>", { desc = "CopilotChat - Fix code" })
-			vim.keymap.set({ "n", "v" }, "<leader>ccd", "<cmd>CopilotChatOptimize<cr>", { desc = "CopilotChat - Optimize code" })
-			vim.keymap.set({ "n", "v" }, "<leader>ccD", "<cmd>CopilotChatDocs<cr>", { desc = "CopilotChat - Generate docs" })
-			vim.keymap.set({ "n", "v" }, "<leader>ccT", "<cmd>CopilotChatTests<cr>", { desc = "CopilotChat - Generate tests" })
+			vim.keymap.set({ "n", "v" }, "<leader>coe", "<cmd>CopilotChatExplain<cr>", { desc = "CopilotChat - Explain code" })
+			vim.keymap.set({ "n", "v" }, "<leader>cor", "<cmd>CopilotChatReview<cr>", { desc = "CopilotChat - Review code" })
+			vim.keymap.set({ "n", "v" }, "<leader>cof", "<cmd>CopilotChatFix<cr>", { desc = "CopilotChat - Fix code" })
+			vim.keymap.set({ "n", "v" }, "<leader>cod", "<cmd>CopilotChatOptimize<cr>", { desc = "CopilotChat - Optimize code" })
+			vim.keymap.set({ "n", "v" }, "<leader>coD", "<cmd>CopilotChatDocs<cr>", { desc = "CopilotChat - Generate docs" })
+			vim.keymap.set({ "n", "v" }, "<leader>coT", "<cmd>CopilotChatTests<cr>", { desc = "CopilotChat - Generate tests" })
 
 			-- Git integration
-			vim.keymap.set("n", "<leader>ccg", "<cmd>CopilotChatCommit<cr>", { desc = "CopilotChat - Generate commit message" })
+			vim.keymap.set("n", "<leader>cog", "<cmd>CopilotChatCommit<cr>", { desc = "CopilotChat - Generate commit message" })
 		end,
 	},
 }
