@@ -15,6 +15,9 @@ return {
 
 		require("copilot_cmp").setup()
 
+		-- Register custom CopilotChat context completion source
+		cmp.register_source("copilotchat-context", require("cmp-copilotchat-context"))
+
 		cmp.setup({
 			snippet = {
 				expand = function(args)
