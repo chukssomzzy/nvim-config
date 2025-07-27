@@ -203,21 +203,7 @@ map("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { desc = "Git Status" })
 map("n", "<leader>sk", "<cmd>Telescope keymaps<cr>", { desc = "Search Keymaps" })
 
 -- ============================================================================
--- Copilot Chat Keymappings
+-- CopilotChat Keymappings - Now handled in plugin configuration
 -- ============================================================================
-
--- General Chat: Ask a question
--- Note the space at the end to allow you to type your question directly
-map("n", "<leader>cc", "<cmd>CopilotChat<CR>", { desc = "Copilot - Chat" })
-
--- Visual Mode Chat: Ask about the selected code
-map("v", "<leader>cc", ":'<,'>CopilotChat<CR>", { desc = "Copilot - Chat with selection" })
-
--- Quick Chat Toggle
-map("n", "<leader>cq", "<cmd>CopilotChatToggle<CR>", { desc = "Copilot - Toggle Quick Chat" })
-
--- Common Chat Actions
-map("n", "<leader>ce", "<cmd>CopilotChatExplain<CR>", { desc = "Copilot - Explain code" })
-map("n", "<leader>ct", "<cmd>CopilotChatTests<CR>", { desc = "Copilot - Generate tests" })
-map("n", "<leader>cd", "<cmd>CopilotChatDocs<CR>", { desc = "Copilot - Generate docs" })
-map("n", "<leader>co", "<cmd>CopilotChatOptimize<CR>", { desc = "Copilot - Optimize code" })
+-- CopilotChat keymaps have been moved to lua/plugins/copilot.lua for better
+-- organization and enhanced functionality with Telescope integration
