@@ -148,8 +148,8 @@ return {
 			vim.keymap.set({ "n", "v" }, "<leader>cor", "<cmd>CopilotChatReview<cr>", { desc = "CopilotChat - Review code" })
 			vim.keymap.set({ "n", "v" }, "<leader>cof", "<cmd>CopilotChatFix<cr>", { desc = "CopilotChat - Fix code" })
 			vim.keymap.set({ "n", "v" }, "<leader>cod", "<cmd>CopilotChatOptimize<cr>", { desc = "CopilotChat - Optimize code" })
-			vim.keymap.set({ "n", "v" }, "<leader>coD", "<cmd>CopilotChatDocs<cr>", { desc = "CopilotChat - Generate docs" })
-			vim.keymap.set({ "n", "v" }, "<leader>coT", "<cmd>CopilotChatTests<cr>", { desc = "CopilotChat - Generate tests" })
+			vim.keymap.set({ "n", "v" }, "<leader>com", "<cmd>CopilotChatDocs<cr>", { desc = "CopilotChat - Generate docs" })
+			vim.keymap.set({ "n", "v" }, "<leader>cos", "<cmd>CopilotChatTests<cr>", { desc = "CopilotChat - Generate tests" })
 
 			-- Git integration
 			vim.keymap.set("n", "<leader>cog", "<cmd>CopilotChatCommit<cr>", { desc = "CopilotChat - Generate commit message" })
