@@ -4,8 +4,8 @@ local map = vim.keymap.set
 map("i", "jk", "<ESC>", { desc = "Escape insert mode" })
 
 -- Clear search highlight on <Esc>
-map("n", "<Esc>", "<cmd>nohlsearch<CR>", { noremap = true, silent = true })
-
+--[[ map("n", "<Esc>", "<cmd>nohlsearch<CR>", { noremap = true, silent = true })
+]]
 map("n", "<F2>", function()
 	vim.opt.wrap = not vim.opt.wrap:get()
 end, { desc = "Toggle line wrap" })
@@ -60,7 +60,8 @@ map("n", "<leader>dp", vim.diagnostic.goto_prev, { desc = "Go to previous diagno
 map("n", "<leader>dn", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 
 -- Git blame mappings
-map("v", "<leader>gb", ":'<,'>Git blame<CR>", { desc = "Git Blame selection" })
+map("n", "<leader>gb", "<cmd>Gitsigns blame_line<CR>", { desc = "Git Blame selection" })
+map("n", "<leader>gd", "<cmd>Gitsigns diffthis<CR>", { desc = "Git Diff this" })
 
 -- ============================================================================
 --Custom Functions & Mappings
