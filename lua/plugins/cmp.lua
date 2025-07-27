@@ -15,6 +15,57 @@ return {
 
 		require("copilot_cmp").setup()
 
+		-- Custom completion source for CopilotChat context references
+		local copilot_chat_source = {}
+		copilot_chat_source.new = function()
+			return setmetatable({}, { __index = copilot_chat_source })
+		end
+
+		copilot_chat_source.get_trigger_characters = function()
+			return { "#" }
+		end
+
+		copilot_chat_source.complete = function(self, request, callback)
+			local input = string.sub(request.context.cursor_before_line, request.offset)
+			local items = {}
+
+			-- Only provide completions if we're in a copilot-chat buffer and user typed #
+			if vim.bo.filetype == "copilot-chat" and string.match(input, "^#") then
+				items = {
+					{
+						label = "#buffer:",
+						kind = cmp.lsp.CompletionItemKind.Reference,
+						documentation = "Include content from a specific buffer by name",
+						insertText = "#buffer:",
+					},
+					{
+						label = "#file:",
+						kind = cmp.lsp.CompletionItemKind.Reference,
+						documentation = "Include content from a specific file by path",
+						insertText = "#file:",
+					},
+					{
+						label = "#files:",
+						kind = cmp.lsp.CompletionItemKind.Reference,
+						documentation = "Include content from multiple files matching a pattern (requires ripgrep)",
+						insertText = "#files:",
+					},
+					{
+						label = "#selection",
+						kind = cmp.lsp.CompletionItemKind.Reference,
+						documentation = "Include the current visual selection",
+						insertText = "#selection",
+					},
+				}
+			end
+
+			callback({ items = items })
+		end
+
+		-- Register the custom completion source
+		cmp.register_source("copilot_chat_context", copilot_chat_source)
+
+		-- Default CMP setup
 		cmp.setup({
 			snippet = {
 				expand = function(args)
@@ -56,6 +107,15 @@ return {
 						fallback()
 					end
 				end, { "i", "s" }),
+			}),
+		})
+
+		-- Buffer-specific setup for copilot-chat filetype
+		cmp.setup.filetype("copilot-chat", {
+			sources = cmp.config.sources({
+				{ name = "copilot_chat_context" },
+				{ name = "buffer" },
+				{ name = "path" },
 			}),
 		})
 	end,
