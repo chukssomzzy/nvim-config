@@ -37,6 +37,7 @@ require("lazy").setup({
 		{ import = "plugins.dap" },
 		{ import = "plugins.extended" },
 		{ import = "plugins.copilot" },
+		{ import = "plugins.mcp" },
 	},
 	-- Configure lazy.nvim options
 	ui = {

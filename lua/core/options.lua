@@ -1,5 +1,5 @@
-local opt = vim.opt
 local g = vim.g
+local opt = vim.opt
 
 -- ============================================================================
 -- Clipboard Configuration
@@ -8,22 +8,10 @@ local g = vim.g
 opt.clipboard = "unnamedplus"
 
 -- Smartly configure clipboard for Termux vs. Desktop Linux
-if vim.fn.has("unix") == 1 then
-	if vim.fn.executable("termux-clipboard-get") == 1 then
-		g.clipboard = {
-			name = "termux-clipboard",
-			copy = { ["+"] = "termux-clipboard-set", ["*"] = "termux-clipboard-set" },
-			paste = { ["+"] = "termux-clipboard-get", ["*"] = "termux-clipboard-get" },
-			cache_enabled = 1,
-		}
-	elseif vim.fn.executable("xclip") == 1 then
-		g.clipboard = {
-			name = "xclip-clipboard",
-			copy = { ["+"] = "xclip -selection clipboard", ["*"] = "xclip -selection clipboard" },
-			paste = { ["+"] = "xclip -selection clipboard -o", ["*"] = "xclip -selection clipboard -o" },
-			cache_enabled = 1,
-		}
-	end
+if vim.fn.executable("termux-clipboard-get") == 1 then
+	g.clipboard = "termux"
+elseif vim.fn.executable("xclip") == 1 then
+	g.clipboard = "xclip"
 end
 
 -- ============================================================================
@@ -82,8 +70,8 @@ opt.smartcase = true
 -- ============================================================================
 -- Performance
 -- ============================================================================
-opt.updatetime = 250
-opt.timeoutlen = 300
+opt.updatetime = 300
+opt.timeoutlen = 1000
 
 -- ============================================================================
 -- Backup & Undo

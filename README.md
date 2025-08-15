@@ -69,9 +69,6 @@ Inside the Mason window, find and install the tools you need by moving the curso
 - **LSPs**: `pyright`, `tsserver`, `volar` (for Vue), `gopls`, `rust_analyzer`, `lua_ls`, `emmet_ls`, `html`, `cssls`, `tailwindcss`, `jsonls`, `yamlls`, `bashls`, `dockerls`.
 - **Formatters**: `isort`, `autopep8`, `prettier`, `stylua`, `shfmt`.
 - **Linters**: `flake8`, `eslint_d`, `shellcheck`.
-- **Debuggers**: `dap-python-debugger` (debugpy).
-
----
 
 ## Keybindings
 
@@ -85,11 +82,15 @@ The leader key is set to `<Space>`.
 | `<leader>sw`      | Sudo save the current file.                        |
 | `<leader>q`       | Smart Quit: closes buffer, or quits if last.       |
 | `<leader>bd`      | Close (delete) the current buffer.                 |
-| `<C-h/j/k/l>`     | Navigate to the window left/down/up/right.         |
 | `[b` / `]b`       | Go to the previous/next buffer.                    |
+| `<C-h>`           | Move to left window.                               |
+| `<C-j>`           | Move to down window.                               |
+| `<C-k>`           | Move to up window.                                 |
+| `<C-l>`           | Move to right window.                              |
 | `<A-j>` / `<A-k>` | Move the current line or visual selection down/up. |
 | `<F2>`            | Toggle line wrapping on and off.                   |
-| `<Esc>`           | Clear search highlight.                            |
+| `<Esc>`           | Clear search highlight (normal mode).              |
+| `jk` (Insert)     | Escape insert mode.                                |
 
 ### 📁 File Explorer (NERDTree)
 
@@ -113,6 +114,12 @@ The leader key is set to `<Space>`.
 | `<leader>fg` | Live grep for a string in your project.       |
 | `<leader>fb` | Find and switch between open buffers.         |
 | `<leader>fh` | Search Neovim's help tags.                    |
+| `<leader>fc` | Find commands.                                |
+| `<leader>fs` | LSP Document Symbols.                         |
+| `<leader>m`  | Find old files.                               |
+| `<leader>sd` | Search Diagnostics.                           |
+| `<leader>gs` | Git Status.                                   |
+| `<leader>sk` | Search Keymaps.                               |
 
 ### 🧠 LSP (Code Intelligence)
 
@@ -138,6 +145,7 @@ The leader key is set to `<Space>`.
 
 | Keybinding      | Description                                                 |
 | :-------------- | :---------------------------------------------------------- |
+| `<leader>i`     | Format buffer with conform.nvim.                            |
 | _(Auto Format)_ | Code is automatically formatted on save via `conform.nvim`. |
 | `<leader>lf`    | Manually trigger formatting for the current buffer.         |
 
@@ -164,7 +172,44 @@ The leader key is set to `<Space>`.
 | `<leader>ql`  | Restore the **l**ast saved session.                 |
 | `<leader>qd`  | Quit without saving the session (**d**iscard).      |
 
----
+### 🧑‍💻 Git Integration
+
+| Keybinding   | Description         |
+| :----------- | :------------------ |
+| `<leader>gb` | Git Blame selection |
+| `<leader>gd` | Git Diff this       |
+
+### 📖 Config Documentation
+
+| Keybinding   | Description                  |
+| :----------- | :--------------------------- |
+| `<leader>/`  | Show Config Help (README.md) |
+| `<leader>ec` | Edit Neovim Config           |
+
+### 🤖 CopilotChat (AI Assistant)
+
+| Keybinding                    | Description                                    |
+| :---------------------------- | :--------------------------------------------- |
+| `<leader>cb`                  | Insert buffer reference via Telescope          |
+| `<leader>cf`                  | Insert file reference via Telescope            |
+| `<leader>coq`                 | CopilotChat - Quick chat with buffer           |
+| `<leader>coo`                 | CopilotChat - Open chat                        |
+| `<leader>cot`                 | CopilotChat - Toggle chat                      |
+| `<leader>cop`                 | CopilotChat - Prompt actions                   |
+| `<leader>coh`                 | CopilotChat - Help actions                     |
+| `<leader>coe`                 | CopilotChat - Explain code (normal/visual)     |
+| `<leader>cor`                 | CopilotChat - Review code (normal/visual)      |
+| `<leader>cof`                 | CopilotChat - Fix code (normal/visual)         |
+| `<leader>cod`                 | CopilotChat - Optimize code (normal/visual)    |
+| `<leader>com`                 | CopilotChat - Generate docs (normal/visual)    |
+| `<leader>cos`                 | CopilotChat - Generate tests (normal/visual)   |
+| `<leader>cog`                 | CopilotChat - Generate commit message          |
+| `<C-x><C-b>` (Insert in chat) | Insert buffer reference via Telescope          |
+| `<C-x><C-f>` (Insert in chat) | Insert file reference via Telescope            |
+| `<C-x><C-g>` (Insert in chat) | Insert files reference via Telescope           |
+| `<leader>qs`                  | Restore session for the current directory.     |
+| `<leader>ql`                  | Restore the **l**ast saved session.            |
+| `<leader>qd`                  | Quit without saving the session (**d**iscard). |
 
 ## Customization
 

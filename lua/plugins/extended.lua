@@ -1,25 +1,4 @@
 return {
-	{
-		"folke/persistence.nvim",
-		event = "BufReadPre",
-		opts = {
-			-- add any custom options here
-		},
-		config = function()
-			require("persistence").setup()
-			-- Add keymaps for session management
-			local map = vim.keymap.set
-			map("n", "<leader>qs", function()
-				require("persistence").load()
-			end, { desc = "Restore Session" })
-			map("n", "<leader>ql", function()
-				require("persistence").load({ last = true })
-			end, { desc = "Restore Last Session" })
-			map("n", "<leader>qd", function()
-				require("persistence").stop()
-			end, { desc = "Don't Save Session" })
-		end,
-	},
 
 	-- Markdown Preview
 	{
@@ -55,5 +34,9 @@ return {
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
 		},
+	},
+
+	{
+		"tpope/vim-obsession",
 	},
 }

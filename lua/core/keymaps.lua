@@ -203,7 +203,25 @@ map("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { desc = "Git Status" })
 map("n", "<leader>sk", "<cmd>Telescope keymaps<cr>", { desc = "Search Keymaps" })
 
 -- ============================================================================
--- CopilotChat Keymappings - Now handled in plugin configuration
+-- Session Management (vim-obsession)
 -- ============================================================================
--- CopilotChat keymaps have been moved to lua/plugins/copilot.lua for better
--- organization and enhanced functionality with Telescope integration
+-- Start a new session with Obsession
+map("n", "<leader>ss", "<cmd>Obsession<CR>", { desc = "Start Obsession session" })
+-- Stop the current session
+map("n", "<leader>se", "<cmd>Obsession!<CR>", { desc = "End Obsession session" })
+-- Reload the last session (if available)
+map("n", "<leader>sr", "<cmd>source Session.vim<CR>", { desc = "Reload last session" })
+
+-- ===========================================================================
+-- LSP Keymapings
+-- - ============================================================================
+--
+map("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "LSP: Go to Definition" })
+
+map("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "LSP: Go to Declaration" })
+map("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "LSP: Hover Documentation" })
+map("n", "gi", vim.lsp.buf.implementation, { buffer = bufnr, desc = "LSP: Go to Implementation" })
+map("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "LSP: Signature Help" })
+map("n", "gr", vim.lsp.buf.references, { buffer = bufnr, desc = "LSP: Show References" })
+map("n", "<leader>lr", vim.lsp.buf.rename, { buffer = bufnr, desc = "LSP: Rename" })
+map({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { buffer = bufnr, desc = "LSP: Code Action" })
