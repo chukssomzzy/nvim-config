@@ -48,14 +48,8 @@ return {
 		config = function()
 			require("avante").setup({
 				-- Provider configuration for AI services
-				provider = "claude", -- Recommend Claude for high accuracy
+				provider = "copilot", -- Use GitHub Copilot as the primary provider
 				auto_suggestions = true, -- Enable automatic suggestions
-				claude = {
-					endpoint = "https://api.anthropic.com",
-					model = "claude-3-5-sonnet-20241022",
-					temperature = 0, -- Lower temperature for more deterministic results
-					max_tokens = 4096,
-				},
 				copilot = {
 					endpoint = "https://api.githubcopilot.com",
 					model = "gpt-4o-2024-05-13",
@@ -64,14 +58,6 @@ return {
 					timeout = 30000, -- Timeout in milliseconds
 					temperature = 0, -- Lower temperature for more accurate suggestions
 					max_tokens = 4096,
-				},
-				openai = {
-					endpoint = "https://api.openai.com/v1",
-					model = "gpt-4o",
-					timeout = 30000, -- Timeout in milliseconds
-					temperature = 0, -- Lower temperature for more accurate code
-					max_tokens = 4096,
-					["local"] = false,
 				},
 				behaviour = {
 					auto_suggestions = true, -- Experimental stage
@@ -164,7 +150,7 @@ return {
 				local choice = vim.fn.confirm("Apply AI suggestion?", "&Yes\n&No\n&Preview", 1)
 				if choice == 1 then
 					require("avante.api").apply_cursor()
-					vim.notify("✅ Applied AI suggestion", vim.log.levels.INFO)
+					require("snacks").notify("✅ Applied AI suggestion", { level = "info" })
 				elseif choice == 3 then
 					-- Show diff preview
 					vim.cmd("AvanteEdit")
@@ -180,9 +166,9 @@ return {
 				-- Check if we're in a context where applying makes sense
 				if line and #line > 0 then
 					require("avante.api").apply_cursor()
-					vim.notify("🤖 Smart apply completed", vim.log.levels.INFO)
+					require("snacks").notify("🤖 Smart apply completed", { level = "info" })
 				else
-					vim.notify("⚠️  No valid context for smart apply", vim.log.levels.WARN)
+					require("snacks").notify("⚠️  No valid context for smart apply", { level = "warn" })
 				end
 			end
 

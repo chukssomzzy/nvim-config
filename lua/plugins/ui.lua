@@ -82,4 +82,23 @@ return {
 			require("gitsigns").setup()
 		end,
 	},
+
+	-- Snacks.nvim - Modern notification system
+	{
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		opts = {
+			-- Configure notifications
+			notifier = {
+				enabled = true,
+				timeout = 3000,
+			},
+		},
+		config = function(_, opts)
+			require("snacks").setup(opts)
+			-- Replace vim.notify with snacks
+			vim.notify = require("snacks").notify
+		end,
+	},
 }
