@@ -144,7 +144,7 @@ local function show_config_help()
 	-- This is more robust than checking for an error after a failed read.
 	local stat = vim.loop.fs_stat(readme_path)
 	if not stat then
-		vim.notify("README.md not found at: " .. readme_path, vim.log.levels.ERROR)
+		vim.notify("README.md not found at: " .. readme_path, { level = "error" })
 		return
 	end
 
