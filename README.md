@@ -11,6 +11,7 @@ The core philosophy is **clarity, performance, and functionality**. The configur
 - **⚡ Fast Startup**: Plugins are lazy-loaded on demand using `lazy.nvim`.
 - **🧠 Intelligent IDE Features**: Native LSP provides diagnostics, code actions, definitions, and references.
 - **🤖 Powerful Autocompletion**: `nvim-cmp` offers context-aware completions for LSP, snippets, buffers, and paths.
+- **🚀 AI-Powered Coding**: Integrated CopilotChat and Avante.nvim for intelligent code suggestions and fast apply with 95% accuracy.
 - **🌳 Advanced Syntax Highlighting**: `nvim-treesitter` provides fast and accurate syntax parsing for numerous languages.
 - **🔭 Fuzzy Finding**: `Telescope` for quickly finding files, buffers, and text within your projects.
 - **🛠️ Flexible Tooling**: Combines multiple linters and formatters with `nvim-lint` and `conform.nvim`, offering a superior alternative to `ALE`.
@@ -207,6 +208,21 @@ The leader key is set to `<Space>`.
 | `<C-x><C-b>` (Insert in chat) | Insert buffer reference via Telescope          |
 | `<C-x><C-f>` (Insert in chat) | Insert file reference via Telescope            |
 | `<C-x><C-g>` (Insert in chat) | Insert files reference via Telescope           |
+
+### 🚀 Avante.nvim (AI Fast Apply)
+
+| Keybinding   | Description                                           |
+| :----------- | :---------------------------------------------------- |
+| `<leader>aa` | Avante - Ask AI (normal/visual)                      |
+| `<leader>ar` | Avante - Refresh AI suggestions                      |
+| `<leader>ae` | Avante - Edit with AI (normal/visual)                |
+| `<leader>af` | Avante - Fast apply with confirmation (95% accuracy) |
+| `<leader>as` | Avante - Smart apply based on context                |
+| `<leader>aA` | Avante - Apply all suggestions                        |
+| `<leader>at` | Avante - Toggle sidebar                               |
+| `<leader>ca` | Combined AI - Open both CopilotChat and Avante       |
+
+### 💾 Session Management
 | `<leader>qs`                  | Restore session for the current directory.     |
 | `<leader>ql`                  | Restore the **l**ast saved session.            |
 | `<leader>qd`                  | Quit without saving the session (**d**iscard). |

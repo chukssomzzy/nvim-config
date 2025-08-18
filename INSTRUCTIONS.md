@@ -73,6 +73,18 @@ This project is a modular Neovim configuration using Lua and [lazy.nvim](https:/
 
 - **Accept suggestion**: `<C-/>`
 - **Next/Prev suggestion**: `<M-]>`, `<M-[>`
+- **CopilotChat commands**: `<leader>co*` (see README for full list)
+- **Context references**: `<leader>cb`, `<leader>cf`
+
+### Avante.nvim (`lua/plugins/avante.lua`)
+
+- **Ask AI**: `<leader>aa`
+- **Edit with AI**: `<leader>ae`
+- **Fast apply (95% accuracy)**: `<leader>af`
+- **Smart apply**: `<leader>as`
+- **Toggle sidebar**: `<leader>at`
+- **Combined AI workflow**: `<leader>ca`
+- **Custom commands**: `:AventeFastApply`, `:AventeSmartApply`
 
 ### UI Enhancements (`lua/plugins/ui.lua`)
 

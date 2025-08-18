@@ -173,6 +173,35 @@ return {
 				"<cmd>CopilotChatCommit<cr>",
 				{ desc = "CopilotChat - Generate commit message" }
 			)
+
+			-- Avante.nvim integration keybindings for enhanced AI workflow
+			vim.keymap.set("n", "<leader>aa", "<cmd>AvanteAsk<cr>", { desc = "Avante - Ask AI" })
+			vim.keymap.set("v", "<leader>aa", "<cmd>AvanteAsk<cr>", { desc = "Avante - Ask AI with selection" })
+			vim.keymap.set("n", "<leader>ar", "<cmd>AvanteRefresh<cr>", { desc = "Avante - Refresh" })
+			vim.keymap.set("n", "<leader>ae", "<cmd>AvanteEdit<cr>", { desc = "Avante - Edit with AI" })
+			vim.keymap.set("v", "<leader>ae", "<cmd>AvanteEdit<cr>", { desc = "Avante - Edit selection with AI" })
+			
+			-- Fast apply keybindings for 95% accuracy workflow
+			vim.keymap.set("n", "<leader>af", "<cmd>AventeFastApply<cr>", { desc = "Avante - Fast apply with confirmation" })
+			
+			vim.keymap.set("n", "<leader>as", "<cmd>AventeSmartApply<cr>", { desc = "Avante - Smart apply based on context" })
+			
+			vim.keymap.set("n", "<leader>aA", function()
+				-- Apply all suggestions in current buffer
+				require("avante.api").apply_all()
+			end, { desc = "Avante - Apply all suggestions" })
+			
+			-- Toggle Avante sidebar for quick access
+			vim.keymap.set("n", "<leader>at", "<cmd>AvanteToggle<cr>", { desc = "Avante - Toggle sidebar" })
+			
+			-- Integration with CopilotChat - use copilot for chat, avante for apply
+			vim.keymap.set("n", "<leader>ca", function()
+				-- Open CopilotChat and then Avante for a complete AI workflow
+				vim.cmd("CopilotChatOpen")
+				vim.defer_fn(function()
+					vim.cmd("AvanteToggle")
+				end, 100)
+			end, { desc = "Combined AI - Open both CopilotChat and Avante" })
 		end,
 	},
 }
