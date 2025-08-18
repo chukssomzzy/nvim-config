@@ -97,8 +97,26 @@ return {
 		},
 		config = function(_, opts)
 			require("snacks").setup(opts)
-			-- Replace vim.notify with snacks
-			vim.notify = require("snacks").notify
+			-- Create a wrapper that handles both old and new vim.notify signatures
+			local snacks_notify = require("snacks").notify
+			vim.notify = function(msg, level, opts_param)
+				-- Handle old signature: vim.notify(msg, level) where level is a number
+				if type(level) == "number" then
+					local level_map = {
+						[vim.log.levels.ERROR] = "error",
+						[vim.log.levels.WARN] = "warn", 
+						[vim.log.levels.INFO] = "info",
+						[vim.log.levels.DEBUG] = "debug",
+					}
+					return snacks_notify(msg, { level = level_map[level] or "info" })
+				-- Handle new signature: vim.notify(msg, opts) where opts is a table
+				elseif type(level) == "table" then
+					return snacks_notify(msg, level)
+				-- Handle simple signature: vim.notify(msg)
+				else
+					return snacks_notify(msg, opts_param or {})
+				end
+			end
 		end,
 	},
 }
