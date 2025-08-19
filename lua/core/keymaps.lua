@@ -212,10 +212,62 @@ map("n", "<leader>se", "<cmd>Obsession!<CR>", { desc = "End Obsession session" }
 -- Reload the last session (if available)
 map("n", "<leader>sr", "<cmd>source Session.vim<CR>", { desc = "Reload last session" })
 
--- ===========================================================================
+-- ============================================================================
+-- AI & Code Assistance Keymappings
+-- ============================================================================
+
+-- Avante.nvim - AI coding assistant with explicit mode
+map("n", "<leader>aa", "<cmd>AvanteAsk<CR>", { desc = "Ask Avante AI" })
+map("n", "<leader>af", "<cmd>AventeFastApply<CR>", { desc = "Apply AI suggestion with confirmation" })
+map("n", "<leader>ap", "<cmd>AventePreview<CR>", { desc = "Preview AI suggestion safely" })
+map("n", "<leader>ae", "<cmd>AventeExplicitApply<CR>", { desc = "Apply with explicit context confirmation" })
+map("n", "<leader>at", "<cmd>AvanteToggle<CR>", { desc = "Toggle Avante panel" })
+
+-- Context management for Avante
+map("n", "<leader>cf", function()
+	-- Add file to Avante context using telescope
+	require("telescope.builtin").find_files({
+		prompt_title = "Add File to Avante Context",
+		attach_mappings = function(_, map_key)
+			map_key('i', '<CR>', function(prompt_bufnr)
+				local selection = require('telescope.actions.state').get_selected_entry()
+				require('telescope.actions').close(prompt_bufnr)
+				if selection then
+					-- Add file to Avante context
+					vim.cmd("AvanteEdit " .. selection.path)
+					require("snacks").notify("📁 Added file to Avante context: " .. selection.filename, { level = "info" })
+				end
+			end)
+			return true
+		end,
+	})
+end, { desc = "Add file to Avante context" })
+
+map("n", "<leader>cb", function()
+	-- Add current buffer to Avante context
+	local buf_name = vim.api.nvim_buf_get_name(0)
+	if buf_name and buf_name ~= "" then
+		local filename = vim.fn.fnamemodify(buf_name, ":t")
+		-- Use Avante's buffer integration
+		vim.cmd("AvanteEdit")
+		require("snacks").notify("📄 Added current buffer to Avante context: " .. filename, { level = "info" })
+	else
+		require("snacks").notify("❌ Cannot add unnamed buffer to context", { level = "warn" })
+	end
+end, { desc = "Add current buffer to Avante context" })
+
+-- Combined CopilotChat + Avante workflow
+map("n", "<leader>ca", function()
+	vim.cmd("CopilotChatOpen")
+	vim.defer_fn(function() 
+		vim.cmd("AvanteToggle") 
+	end, 100)
+	require("snacks").notify("🤖 Opened combined AI workflow: CopilotChat + Avante", { level = "info" })
+end, { desc = "Open combined CopilotChat + Avante" })
+
+-- ============================================================================
 -- LSP Keymapings
--- - ============================================================================
---
+-- ============================================================================
 map("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "LSP: Go to Definition" })
 
 map("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "LSP: Go to Declaration" })

@@ -23,15 +23,30 @@ return {
 				"HakonHarnes/img-clip.nvim",
 				event = "VeryLazy",
 				opts = {
-					-- recommended settings
+					-- recommended settings for Avante.nvim integration
 					default = {
-						embed_image_as_base64 = false,
+						embed_image_as_base64 = true, -- Enable base64 embedding for Avante
 						prompt_for_file_name = false,
 						drag_and_drop = {
 							insert_mode = true,
 						},
 						-- required for Windows users
 						use_absolute_path = true,
+						-- Process images for AI analysis
+						process_cmd = "convert $FILENAME -resize 800x600> $FILENAME",
+						-- Template for image insertion in Avante context
+						template = "![Image]($FILE_PATH)",
+					},
+					-- Specific configuration for Avante filetypes
+					filetypes = {
+						Avante = {
+							-- Enhanced template for Avante AI context
+							template = "I'm sharing an image for analysis:\n\n![Image for AI Analysis]($FILE_PATH)\n\nPlease analyze this image and provide insights.",
+							drag_and_drop = {
+								insert_mode = true,
+								copy_images = true,
+							},
+						},
 					},
 				},
 			},
@@ -95,6 +110,11 @@ return {
 						apply_cursor = "a",
 						switch_windows = "<Tab>",
 						reverse_switch_windows = "<S-Tab>",
+					},
+					-- Enhanced paste mapping for images
+					paste = {
+						normal = "p", -- Use 'p' for pasting images with proper formatting
+						insert = "<C-v>", -- Alternative paste in insert mode
 					},
 				},
 				hints = { enabled = true },
@@ -225,6 +245,25 @@ return {
 					-- Buffer-specific keymaps for Avante windows
 					vim.keymap.set("n", "q", "<cmd>close<cr>", vim.tbl_extend("force", opts, { desc = "Close Avante window" }))
 					vim.keymap.set("n", "<C-c>", "<cmd>close<cr>", vim.tbl_extend("force", opts, { desc = "Close Avante window" }))
+					
+					-- Disable problematic autocmds that might conflict with Avante
+					vim.b[event.buf].copilot_enabled = false -- Disable Copilot suggestions in Avante buffer
+					
+					-- Set buffer options for better Avante experience
+					vim.bo[event.buf].spell = false -- Disable spell check in Avante buffer
+					vim.bo[event.buf].wrap = true -- Enable word wrap for better readability
+				end,
+			})
+
+			-- Prevent conflicts with other plugins when in Avante buffer
+			vim.api.nvim_create_autocmd({"TextChanged", "TextChangedI"}, {
+				pattern = "*",
+				callback = function()
+					-- Skip processing if we're in an Avante buffer to prevent conflicts
+					if vim.bo.filetype == "Avante" then
+						return
+					end
+					-- Allow normal processing for other filetypes
 				end,
 			})
 		end,
