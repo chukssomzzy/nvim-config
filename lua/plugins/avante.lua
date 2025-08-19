@@ -48,7 +48,7 @@ return {
 			require("avante").setup({
 				-- Provider configuration for AI services
 				provider = "copilot", -- Use GitHub Copilot as the primary provider
-				auto_suggestions = true, -- Enable automatic suggestions
+				auto_suggestions = false, -- Disable automatic suggestions for explicit control
 				copilot = {
 					endpoint = "https://api.githubcopilot.com",
 					model = "gpt-4o-2024-05-13",
@@ -59,11 +59,11 @@ return {
 					max_tokens = 4096,
 				},
 				behaviour = {
-					auto_suggestions = true, -- Experimental stage
+					auto_suggestions = false, -- Disable automatic suggestions - require explicit activation
 					auto_set_highlight_group = true,
 					auto_set_keymaps = true,
-					auto_apply_diff_after_generation = false, -- Manual control for accuracy
-					support_paste_from_clipboard = false,
+					auto_apply_diff_after_generation = false, -- Always require manual confirmation
+					support_paste_from_clipboard = true, -- Enable clipboard support for images
 				},
 				mappings = {
 					--- @class AvanteConflictMappings
@@ -141,44 +141,81 @@ return {
 				},
 			})
 
-			-- Custom functions for enhanced fast apply workflow
+			-- Custom functions for enhanced explicit apply workflow
 			local avante_utils = {}
 			
-			-- Fast apply with confirmation for high accuracy
+			-- Fast apply with explicit confirmation for maximum safety
 			function avante_utils.fast_apply_with_confirm()
-				local choice = vim.fn.confirm("Apply AI suggestion?", "&Yes\n&No\n&Preview", 1)
+				-- Show detailed confirmation dialog
+				local choice = vim.fn.confirm(
+					"Apply AI suggestion to current cursor position?\n" ..
+					"⚠️  This will modify your code. Review the suggestion first.",
+					"&Apply\n&Cancel\n&Preview First", 
+					2 -- Default to Cancel for safety
+				)
 				if choice == 1 then
 					require("avante.api").apply_cursor()
-					require("snacks").notify("✅ Applied AI suggestion", { level = "info" })
+					require("snacks").notify("✅ AI suggestion applied successfully", { level = "info" })
 				elseif choice == 3 then
-					-- Show diff preview
+					-- Show diff preview without applying
 					vim.cmd("AvanteEdit")
+					require("snacks").notify("📋 Preview opened - review before applying", { level = "info" })
+				else
+					require("snacks").notify("❌ Apply cancelled by user", { level = "info" })
 				end
 			end
 			
-			-- Smart apply - automatically detects context and applies appropriate suggestion
-			function avante_utils.smart_apply()
+			-- Explicit apply with context confirmation - no automatic application
+			function avante_utils.explicit_apply()
 				local buf = vim.api.nvim_get_current_buf()
 				local cursor_pos = vim.api.nvim_win_get_cursor(0)
 				local line = vim.api.nvim_buf_get_lines(buf, cursor_pos[1]-1, cursor_pos[1], false)[1]
 				
-				-- Check if we're in a context where applying makes sense
-				if line and #line > 0 then
+				-- Always require explicit confirmation regardless of context
+				local context_info = line and #line > 0 and 
+					string.format("Line %d: %s", cursor_pos[1], line:sub(1, 50)) or
+					"Empty line"
+				
+				local choice = vim.fn.confirm(
+					"Apply AI suggestion at cursor position?\n\n" ..
+					"Context: " .. context_info .. "\n\n" ..
+					"⚠️  This action will modify your code.",
+					"&Apply\n&Cancel\n&Show Preview", 
+					2 -- Default to Cancel
+				)
+				
+				if choice == 1 then
 					require("avante.api").apply_cursor()
-					require("snacks").notify("🤖 Smart apply completed", { level = "info" })
+					require("snacks").notify("🤖 AI suggestion applied at cursor", { level = "info" })
+				elseif choice == 3 then
+					vim.cmd("AvanteEdit")
+					require("snacks").notify("📋 Preview opened for review", { level = "info" })
 				else
-					require("snacks").notify("⚠️  No valid context for smart apply", { level = "warn" })
+					require("snacks").notify("❌ Apply cancelled", { level = "info" })
 				end
 			end
 
-			-- Create user commands for easy access
+			-- Safe preview function that never auto-applies
+			function avante_utils.preview_suggestion()
+				vim.cmd("AvanteEdit")
+				require("snacks").notify("📋 Suggestion preview opened - use manual apply when ready", { level = "info" })
+			end
+
+			-- Create user commands for explicit control
 			vim.api.nvim_create_user_command("AventeFastApply", avante_utils.fast_apply_with_confirm, {
-				desc = "Fast apply with confirmation for high accuracy"
+				desc = "Apply AI suggestion with explicit confirmation and safety checks"
 			})
 			
-			vim.api.nvim_create_user_command("AventeSmartApply", avante_utils.smart_apply, {
-				desc = "Smart apply based on context"
+			vim.api.nvim_create_user_command("AventeExplicitApply", avante_utils.explicit_apply, {
+				desc = "Apply AI suggestion with context confirmation (replaces smart apply)"
 			})
+
+			vim.api.nvim_create_user_command("AventePreview", avante_utils.preview_suggestion, {
+				desc = "Preview AI suggestion without applying (safe preview)"
+			})
+
+			-- Remove the old smart apply command to prevent confusion
+			-- AventeSmartApply has been replaced with AventeExplicitApply for safety
 
 			-- Set up autocmds for better integration
 			vim.api.nvim_create_autocmd("FileType", {

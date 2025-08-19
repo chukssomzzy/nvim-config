@@ -121,7 +121,46 @@ This configuration requires GitHub Copilot for AI functionality. If you haven't 
 
 Without GitHub Copilot, the AI features (CopilotChat and Avante.nvim) will not function.
 
-#### 6. Install External Tools (LSPs, Linters, Formatters)
+#### 6. Set Up System Clipboard Integration
+
+For proper clipboard functionality (copy/paste between Neovim and system), install the appropriate clipboard utility:
+
+**Quick Setup (Automated)**:
+```bash
+# Run the provided installation script
+./install-clipboard.sh
+```
+
+**Manual Setup**:
+
+| Environment | Required Package | Installation Command |
+|-------------|------------------|---------------------|
+| **Wayland** | `wl-clipboard` | `sudo apt install wl-clipboard` (Ubuntu/Debian)<br>`sudo dnf install wl-clipboard` (Fedora)<br>`sudo pacman -S wl-clipboard` (Arch) |
+| **X11** | `xclip` or `xsel` | `sudo apt install xclip xsel` (Ubuntu/Debian)<br>`sudo dnf install xclip xsel` (Fedora)<br>`sudo pacman -S xclip xsel` (Arch) |
+| **macOS** | Built-in | `pbcopy` and `pbpaste` (no installation needed) |
+| **Termux** | Built-in | `termux-clipboard-get/set` (no installation needed) |
+| **Windows** | Built-in | No installation needed |
+
+**Verify Clipboard Setup**:
+```bash
+# Test copying
+echo "test clipboard" | xclip -selection clipboard  # X11
+echo "test clipboard" | wl-copy                      # Wayland
+
+# Test in Neovim
+# 1. Copy text with 'yy' in Neovim
+# 2. Paste outside Neovim (Ctrl+V)
+# 3. Copy text outside Neovim
+# 4. Paste in Neovim with 'p' or '"+p'
+```
+
+**Clipboard Features**:
+- ✅ **System Integration**: Seamless copy/paste between Neovim and other applications
+- ✅ **Image Paste Support**: Paste images directly into Avante.nvim for AI analysis
+- ✅ **Auto-Detection**: Configuration automatically detects and configures available clipboard utilities
+- ✅ **Fallback Handling**: Graceful fallback when clipboard utilities are unavailable
+
+#### 7. Install External Tools (LSPs, Linters, Formatters)
 
 This configuration uses `mason.nvim` to manage all external command-line tools.
 Run the command `:Mason` to open the Mason UI.
@@ -270,18 +309,25 @@ The leader key is set to `<Space>`.
 | `<C-x><C-f>` (Insert in chat) | Insert file reference via Telescope            |
 | `<C-x><C-g>` (Insert in chat) | Insert files reference via Telescope           |
 
-### 🚀 Avante.nvim (AI Fast Apply)
+### 🚀 Avante.nvim (AI Fast Apply) - Explicit Mode
 
-| Keybinding   | Description                                           |
-| :----------- | :---------------------------------------------------- |
-| `<leader>aa` | Avante - Ask AI (normal/visual)                      |
-| `<leader>ar` | Avante - Refresh AI suggestions                      |
-| `<leader>ae` | Avante - Edit with AI (normal/visual)                |
-| `<leader>af` | Avante - Fast apply with confirmation (95% accuracy) |
-| `<leader>as` | Avante - Smart apply based on context                |
-| `<leader>aA` | Avante - Apply all suggestions                        |
-| `<leader>at` | Avante - Toggle sidebar                               |
-| `<leader>ca` | Combined AI - Open both CopilotChat and Avante       |
+| Keybinding   | Description                                                    |
+| :----------- | :------------------------------------------------------------- |
+| `<leader>aa` | Avante - Ask AI (normal/visual)                               |
+| `<leader>ar` | Avante - Refresh AI suggestions                               |
+| `<leader>ae` | Avante - Edit with AI (normal/visual)                         |
+| `<leader>af` | Avante - Apply with explicit confirmation (safety-first)      |
+| `<leader>as` | Avante - Explicit apply with context confirmation             |
+| `<leader>ap` | Avante - Preview suggestion safely (no auto-apply)            |
+| `<leader>aA` | Avante - Apply all suggestions (with confirmation)            |
+| `<leader>at` | Avante - Toggle sidebar                                        |
+| `<leader>ca` | Combined AI - Open both CopilotChat and Avante                |
+
+**Note**: Avante is configured in **explicit mode** for maximum safety:
+- **No auto-suggestions**: All AI suggestions require manual activation
+- **Confirmation required**: Every apply action requires explicit user confirmation  
+- **Preview-first**: Use `<leader>ap` to safely preview suggestions before applying
+- **Context awareness**: Explicit apply shows context information before proceeding
 
 #### Avante.nvim Dependencies
 
@@ -335,6 +381,25 @@ This configuration uses **snacks.nvim** as the foundation for a modern, maintain
 ## Troubleshooting
 
 ### Common Issues
+
+#### Clipboard Not Working
+**Symptoms**: Cannot paste images in Avante, yanked text doesn't go to system clipboard
+**Solutions**:
+- **Check Clipboard Utilities**: Run `which xclip wl-copy pbcopy` to verify installation
+- **Install Missing Tools**: Use `./install-clipboard.sh` or install manually based on your environment
+- **Verify Configuration**: Check `:set clipboard?` should show `unnamedplus` 
+- **Test System Integration**: 
+  ```bash
+  # Test copying TO system
+  echo "test" | xclip -selection clipboard  # X11
+  echo "test" | wl-copy                      # Wayland
+  
+  # Test copying FROM system  
+  xclip -selection clipboard -o  # X11
+  wl-paste                       # Wayland
+  ```
+- **Environment Check**: Ensure `$DISPLAY` (X11) or `$WAYLAND_DISPLAY` (Wayland) is set
+- **Permission Issues**: Ensure clipboard utilities have proper permissions
 
 #### AI Features Not Working
 - **Check Copilot Status**: Run `:Copilot status` to verify authentication
