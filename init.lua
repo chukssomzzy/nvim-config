@@ -1,8 +1,6 @@
--- Set <space> as the leader key
--- Must be set before plugins are loaded
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
+vim.env.TERM_PROGRAM = "sixel"
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -27,7 +25,6 @@ require("lazy").setup({
 	spec = {
 		-- Import all plugin configurations from the plugins directory
 		{ import = "plugins.lsp" },
-		{ import = "plugins.cmp" },
 		{ import = "plugins.telescope" },
 		{ import = "plugins.treesitter" },
 		{ import = "plugins.ui" },
@@ -39,6 +36,7 @@ require("lazy").setup({
 		{ import = "plugins.copilot" },
 		{ import = "plugins.avante" },
 		{ import = "plugins.mcp" },
+		{ import = "plugins.cmp" },
 	},
 	-- Configure lazy.nvim options
 	ui = {

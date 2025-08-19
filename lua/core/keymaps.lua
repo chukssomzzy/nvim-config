@@ -29,7 +29,7 @@ map("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 map("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- Terminal
-map("n", "<leader>tt", "<cmd>new --size=10 | terminal<CR>", { desc = "Open horizontal terminal" })
+map("n", "<leader>tt", "<cmd>new --size=5 | terminal<CR>", { desc = "Open horizontal terminal" })
 map("n", "<leader>tv", "<cmd>vnew --size=40 | terminal<CR>", { desc = "Open vertical terminal" })
 map("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })
 
@@ -229,13 +229,16 @@ map("n", "<leader>cf", function()
 	require("telescope.builtin").find_files({
 		prompt_title = "Add File to Avante Context",
 		attach_mappings = function(_, map_key)
-			map_key('i', '<CR>', function(prompt_bufnr)
-				local selection = require('telescope.actions.state').get_selected_entry()
-				require('telescope.actions').close(prompt_bufnr)
+			map_key("i", "<CR>", function(prompt_bufnr)
+				local selection = require("telescope.actions.state").get_selected_entry()
+				require("telescope.actions").close(prompt_bufnr)
 				if selection then
 					-- Add file to Avante context
 					vim.cmd("AvanteEdit " .. selection.path)
-					require("snacks").notify("📁 Added file to Avante context: " .. selection.filename, { level = "info" })
+					require("snacks").notify(
+						"📁 Added file to Avante context: " .. selection.filename,
+						{ level = "info" }
+					)
 				end
 			end)
 			return true
@@ -259,8 +262,8 @@ end, { desc = "Add current buffer to Avante context" })
 -- Combined CopilotChat + Avante workflow
 map("n", "<leader>ca", function()
 	vim.cmd("CopilotChatOpen")
-	vim.defer_fn(function() 
-		vim.cmd("AvanteToggle") 
+	vim.defer_fn(function()
+		vim.cmd("AvanteToggle")
 	end, 100)
 	require("snacks").notify("🤖 Opened combined AI workflow: CopilotChat + Avante", { level = "info" })
 end, { desc = "Open combined CopilotChat + Avante" })

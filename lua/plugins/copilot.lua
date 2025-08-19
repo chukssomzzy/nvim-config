@@ -1,7 +1,7 @@
 return {
 	-- The core Copilot plugin for completions
 	{
-		"github/copilot.vim",
+		"zbirenbaum/copilot.lua",
 	},
 
 	-- The new Copilot Chat plugin with enhanced features
@@ -10,7 +10,7 @@ return {
 		branch = "main",
 		dependencies = {
 			-- These are required dependencies
-			{ "github/copilot.vim" },
+			{ "zbirenbaum/copilot.lua" },
 			{ "nvim-lua/plenary.nvim" },
 			{ "nvim-telescope/telescope.nvim" }, -- Add telescope dependency
 		},
@@ -180,20 +180,30 @@ return {
 			vim.keymap.set("n", "<leader>ar", "<cmd>AvanteRefresh<cr>", { desc = "Avante - Refresh" })
 			vim.keymap.set("n", "<leader>ae", "<cmd>AvanteEdit<cr>", { desc = "Avante - Edit with AI" })
 			vim.keymap.set("v", "<leader>ae", "<cmd>AvanteEdit<cr>", { desc = "Avante - Edit selection with AI" })
-			
+
 			-- Explicit apply keybindings with safety confirmations
-			vim.keymap.set("n", "<leader>af", "<cmd>AventeFastApply<cr>", { desc = "Avante - Apply with explicit confirmation" })
-			
-			vim.keymap.set("n", "<leader>as", "<cmd>AventeExplicitApply<cr>", { desc = "Avante - Explicit apply with context confirmation" })
-			
+			vim.keymap.set(
+				"n",
+				"<leader>af",
+				"<cmd>AventeFastApply<cr>",
+				{ desc = "Avante - Apply with explicit confirmation" }
+			)
+
+			vim.keymap.set(
+				"n",
+				"<leader>as",
+				"<cmd>AventeExplicitApply<cr>",
+				{ desc = "Avante - Explicit apply with context confirmation" }
+			)
+
 			-- Safe preview without auto-applying
 			vim.keymap.set("n", "<leader>ap", "<cmd>AventePreview<cr>", { desc = "Avante - Preview suggestion (safe)" })
-			
+
 			-- Manual apply all (with confirmation)
 			vim.keymap.set("n", "<leader>aA", function()
 				local choice = vim.fn.confirm(
 					"Apply ALL AI suggestions in current buffer?\n\n⚠️  This will apply multiple changes at once.",
-					"&Apply All\n&Cancel", 
+					"&Apply All\n&Cancel",
 					2 -- Default to Cancel
 				)
 				if choice == 1 then
@@ -203,10 +213,10 @@ return {
 					require("snacks").notify("❌ Apply all cancelled", { level = "info" })
 				end
 			end, { desc = "Avante - Apply all suggestions (with confirmation)" })
-			
+
 			-- Toggle Avante sidebar for quick access
 			vim.keymap.set("n", "<leader>at", "<cmd>AvanteToggle<cr>", { desc = "Avante - Toggle sidebar" })
-			
+
 			-- Integration with CopilotChat - use copilot for chat, avante for apply
 			vim.keymap.set("n", "<leader>ca", function()
 				-- Open CopilotChat and then Avante for a complete AI workflow

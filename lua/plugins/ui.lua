@@ -1,5 +1,4 @@
 return {
-	-- Theme
 	{
 		"folke/tokyonight.nvim",
 		priority = 1000,
@@ -92,18 +91,40 @@ return {
 			-- Configure notifications
 			notifier = {
 				enabled = true,
-				timeout = 8000, -- Increased to 8 seconds for better readability
-				-- Additional settings for better visibility
-				top_down = false, -- Show notifications from bottom up
-				style = "fancy", -- Use fancy style for better visibility
+				top_down = false,
+				style = "fancy",
 				margin = { top = 0, right = 1, bottom = 0 },
-				-- Make notifications more prominent and readable
 				width = { min = 40, max = 0.4 },
 				height = { min = 1, max = 0.6 },
 			},
-			-- Enable input/select UI enhancements to replace dressing.nvim
+			-- Enable input/select UI enhancements
 			input = { enabled = true },
 			select = { enabled = true },
+
+			-- Add dashboard for image support
+			dashboard = {
+				enabled = true,
+				sections = {
+					{ section = "header" },
+					{ section = "keys", gap = 1, padding = 1 },
+					{ section = "startup" },
+				},
+			},
+
+			image = {
+				enabled = true,
+			},
+			-- Enable bigfile for better performance with large files
+			bigfile = { enabled = true },
+
+			-- Enable quickfile for faster file operations
+			quickfile = { enabled = true },
+
+			-- Enable statuscolumn improvements
+			statuscolumn = { enabled = true },
+
+			-- Enable words (better word under cursor highlighting)
+			words = { enabled = true },
 		},
 	},
 }

@@ -14,6 +14,9 @@ return {
 						convert_resources_to_functions = true, -- Convert MCP resources to CopilotChat functions
 						add_mcp_prefix = true, -- Add "mcp_" prefix to function names
 					},
+					avante = {
+						make_slash_commands = true, -- make /slash commands from MCP server prompts
+					},
 				},
 			})
 		end,
