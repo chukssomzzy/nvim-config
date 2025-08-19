@@ -92,10 +92,14 @@ return {
 			-- Configure notifications
 			notifier = {
 				enabled = true,
-				timeout = 5000, -- Increased to 5 seconds for better readability
+				timeout = 8000, -- Increased to 8 seconds for better readability
 				-- Additional settings for better visibility
 				top_down = false, -- Show notifications from bottom up
-				style = "compact", -- Use compact style
+				style = "fancy", -- Use fancy style for better visibility
+				margin = { top = 0, right = 1, bottom = 0 },
+				-- Make notifications more prominent and readable
+				width = { min = 40, max = 0.4 },
+				height = { min = 1, max = 0.6 },
 			},
 			-- Enable input/select UI enhancements to replace dressing.nvim
 			input = { enabled = true },

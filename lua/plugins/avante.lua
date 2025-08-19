@@ -249,21 +249,11 @@ return {
 					-- Disable problematic autocmds that might conflict with Avante
 					vim.b[event.buf].copilot_enabled = false -- Disable Copilot suggestions in Avante buffer
 					
-					-- Set buffer options for better Avante experience
-					vim.bo[event.buf].spell = false -- Disable spell check in Avante buffer
-					vim.bo[event.buf].wrap = true -- Enable word wrap for better readability
-				end,
-			})
-
-			-- Prevent conflicts with other plugins when in Avante buffer
-			vim.api.nvim_create_autocmd({"TextChanged", "TextChangedI"}, {
-				pattern = "*",
-				callback = function()
-					-- Skip processing if we're in an Avante buffer to prevent conflicts
-					if vim.bo.filetype == "Avante" then
-						return
-					end
-					-- Allow normal processing for other filetypes
+					-- Set buffer and window options for better Avante experience
+					-- Use vim.wo for window-local options (like spell) to avoid errors
+					local win = vim.api.nvim_get_current_win()
+					vim.api.nvim_set_option_value("spell", false, { win = win }) -- Disable spell check in Avante window
+					vim.api.nvim_set_option_value("wrap", true, { buf = event.buf }) -- Enable word wrap for better readability
 				end,
 			})
 		end,
