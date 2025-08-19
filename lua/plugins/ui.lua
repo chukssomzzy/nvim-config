@@ -83,7 +83,7 @@ return {
 		end,
 	},
 
-	-- Snacks.nvim - Modern notification system
+	-- Snacks.nvim - Modern notification system with UI enhancements
 	{
 		"folke/snacks.nvim",
 		priority = 1000,
@@ -94,6 +94,9 @@ return {
 				enabled = true,
 				timeout = 3000,
 			},
+			-- Enable input/select UI enhancements to replace dressing.nvim
+			input = { enabled = true },
+			select = { enabled = true },
 		},
 		config = function(_, opts)
 			require("snacks").setup(opts)
