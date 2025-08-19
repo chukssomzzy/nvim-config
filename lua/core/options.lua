@@ -7,13 +7,6 @@ local opt = vim.opt
 -- Use system clipboard by default
 opt.clipboard = "unnamedplus"
 
--- Smartly configure clipboard for Termux vs. Desktop Linux
-if vim.fn.executable("termux-clipboard-get") == 1 then
-	g.clipboard = "termux"
-elseif vim.fn.executable("xclip") == 1 then
-	g.clipboard = "xclip"
-end
-
 -- ============================================================================
 -- General & UI Options
 -- ============================================================================

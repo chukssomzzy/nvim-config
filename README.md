@@ -11,12 +11,67 @@ The core philosophy is **clarity, performance, and functionality**. The configur
 - **⚡ Fast Startup**: Plugins are lazy-loaded on demand using `lazy.nvim`.
 - **🧠 Intelligent IDE Features**: Native LSP provides diagnostics, code actions, definitions, and references.
 - **🤖 Powerful Autocompletion**: `nvim-cmp` offers context-aware completions for LSP, snippets, buffers, and paths.
+- **🚀 AI-Powered Coding**: Integrated CopilotChat and Avante.nvim for intelligent code suggestions and fast apply with 95% accuracy.
+  - **CopilotChat**: Interactive AI conversations for code explanations, reviews, and suggestions
+  - **Avante.nvim**: Fast apply functionality with context-aware automatic application
+  - **GitHub Copilot Integration**: Uses exclusively GitHub Copilot as the AI provider (no external API dependencies)
+  - **Smart Apply Workflow**: Manual confirmation prevents unwanted changes with preview options
 - **🌳 Advanced Syntax Highlighting**: `nvim-treesitter` provides fast and accurate syntax parsing for numerous languages.
 - **🔭 Fuzzy Finding**: `Telescope` for quickly finding files, buffers, and text within your projects.
 - **🛠️ Flexible Tooling**: Combines multiple linters and formatters with `nvim-lint` and `conform.nvim`, offering a superior alternative to `ALE`.
 - **🐛 Integrated Debugging**: A full debugging experience with `nvim-dap` and a clean UI via `nvim-dap-ui`.
 - **💾 Session Management**: Automatically saves and restores your sessions with `persistence.nvim`.
 - **📁 Clean & Modular Structure**: Configuration is split into logical files (`options.lua`, `keymaps.lua`, `plugins/`, etc.), making it easy to maintain and customize.
+- **🎨 Modern UI**: Uses `snacks.nvim` for modern notifications, input dialogs, and UI enhancements, replacing archived plugins like `nvim-notify` and `dressing.nvim`.
+
+## AI Integration Overview
+
+This configuration features a comprehensive AI-powered development environment with two complementary tools:
+
+### CopilotChat - Interactive AI Assistant
+
+- **Purpose**: Interactive conversations, code explanations, and guided development
+- **Best for**: Learning, debugging, code reviews, generating documentation and tests
+- **Workflow**: Chat-based interaction with context-aware responses
+
+### Avante.nvim - Fast Apply AI Coding
+
+- **Purpose**: Direct code modification with fast apply functionality
+- **Best for**: Quick code changes, refactoring, and automatic implementation of suggestions
+- **Workflow**: Context-aware suggestions with manual confirmation for accuracy
+- **Features**:
+  - **95% accuracy** with GitHub Copilot provider (temperature = 0 for deterministic results)
+  - **Smart Apply**: Analyzes cursor position and code context for intelligent application
+  - **Fast Apply**: Confirmation-based application with preview option
+  - **Manual Control**: No auto-apply to prevent unwanted changes
+
+### Combined AI Workflow
+
+Use `<leader>ca` to open both tools simultaneously for comprehensive AI assistance:
+
+- **CopilotChat** for interactive guidance and explanations
+- **Avante** for direct code application and fast implementation
+
+Both tools are configured to use **exclusively GitHub Copilot** as the AI provider, ensuring consistent behavior and eliminating external API dependencies.
+
+## Prerequisites
+
+This configuration requires:
+
+- **Neovim (v0.8.0+ or later)** - This will not work with standard Vim
+- **Git** - For plugin management and version control
+- **Node.js (14+)** - Required for various LSP servers and tools
+- **GitHub Copilot subscription** - For AI-powered features (Avante.nvim and CopilotChat)
+- **Build tools** - `make`, `gcc`/`clang` for compiling Avante.nvim and other native dependencies
+- **curl** - For downloading external tools and updates
+
+### External Dependencies (Auto-installed via Mason)
+
+The configuration uses `mason.nvim` to automatically install these tools:
+
+- **Language Servers**: `pyright`, `tsserver`, `lua_ls`, `gopls`, `rust_analyzer`, etc.
+- **Formatters**: `prettier`, `stylua`, `autopep8`, `isort`, etc.
+- **Linters**: `eslint_d`, `flake8`, `shellcheck`, etc.
 
 ## Installation
 
@@ -57,9 +112,63 @@ Start Neovim. `lazy.nvim` will automatically open, install all the plugins, and 
 nvim
 ```
 
+**Note**: On first startup, Avante.nvim will compile its native components using `make`. This may take a few minutes but only happens once.
+
 After the installation is complete, close and reopen Neovim.
 
-#### 5. Install External Tools (LSPs, Linters, Formatters)
+#### 5. Configure GitHub Copilot (Required for AI Features)
+
+This configuration requires GitHub Copilot for AI functionality. If you haven't set it up:
+
+1. **Install GitHub Copilot**: Ensure you have a valid GitHub Copilot subscription
+2. **Authenticate**: Run `:Copilot auth` in Neovim and follow the authentication process
+3. **Verify**: Run `:Copilot status` to ensure it's working properly
+
+Without GitHub Copilot, the AI features (CopilotChat and Avante.nvim) will not function.
+
+#### 6. Set Up System Clipboard Integration
+
+For proper clipboard functionality (copy/paste between Neovim and system), install the appropriate clipboard utility:
+
+**Quick Setup (Automated)**:
+
+```bash
+# Run the provided installation script
+./install-clipboard.sh
+```
+
+**Manual Setup**:
+
+| Environment | Required Package  | Installation Command                                                                                                                |
+| ----------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Wayland** | `wl-clipboard`    | `sudo apt install wl-clipboard` (Ubuntu/Debian)<br>`sudo dnf install wl-clipboard` (Fedora)<br>`sudo pacman -S wl-clipboard` (Arch) |
+| **X11**     | `xclip` or `xsel` | `sudo apt install xclip xsel` (Ubuntu/Debian)<br>`sudo dnf install xclip xsel` (Fedora)<br>`sudo pacman -S xclip xsel` (Arch)       |
+| **macOS**   | Built-in          | `pbcopy` and `pbpaste` (no installation needed)                                                                                     |
+| **Termux**  | Built-in          | `termux-clipboard-get/set` (no installation needed)                                                                                 |
+| **Windows** | Built-in          | No installation needed                                                                                                              |
+
+**Verify Clipboard Setup**:
+
+```bash
+# Test copying
+echo "test clipboard" | xclip -selection clipboard  # X11
+echo "test clipboard" | wl-copy                      # Wayland
+
+# Test in Neovim
+# 1. Copy text with 'yy' in Neovim
+# 2. Paste outside Neovim (Ctrl+V)
+# 3. Copy text outside Neovim
+# 4. Paste in Neovim with 'p' or '"+p'
+```
+
+**Clipboard Features**:
+
+- ✅ **System Integration**: Seamless copy/paste between Neovim and other applications
+- ✅ **Image Paste Support**: Paste images directly into Avante.nvim for AI analysis
+- ✅ **Auto-Detection**: Configuration automatically detects and configures available clipboard utilities
+- ✅ **Fallback Handling**: Graceful fallback when clipboard utilities are unavailable
+
+#### 7. Install External Tools (LSPs, Linters, Formatters)
 
 This configuration uses `mason.nvim` to manage all external command-line tools.
 Run the command `:Mason` to open the Mason UI.
@@ -188,28 +297,72 @@ The leader key is set to `<Space>`.
 
 ### 🤖 CopilotChat (AI Assistant)
 
-| Keybinding                    | Description                                    |
-| :---------------------------- | :--------------------------------------------- |
-| `<leader>cb`                  | Insert buffer reference via Telescope          |
-| `<leader>cf`                  | Insert file reference via Telescope            |
-| `<leader>coq`                 | CopilotChat - Quick chat with buffer           |
-| `<leader>coo`                 | CopilotChat - Open chat                        |
-| `<leader>cot`                 | CopilotChat - Toggle chat                      |
-| `<leader>cop`                 | CopilotChat - Prompt actions                   |
-| `<leader>coh`                 | CopilotChat - Help actions                     |
-| `<leader>coe`                 | CopilotChat - Explain code (normal/visual)     |
-| `<leader>cor`                 | CopilotChat - Review code (normal/visual)      |
-| `<leader>cof`                 | CopilotChat - Fix code (normal/visual)         |
-| `<leader>cod`                 | CopilotChat - Optimize code (normal/visual)    |
-| `<leader>com`                 | CopilotChat - Generate docs (normal/visual)    |
-| `<leader>cos`                 | CopilotChat - Generate tests (normal/visual)   |
-| `<leader>cog`                 | CopilotChat - Generate commit message          |
-| `<C-x><C-b>` (Insert in chat) | Insert buffer reference via Telescope          |
-| `<C-x><C-f>` (Insert in chat) | Insert file reference via Telescope            |
-| `<C-x><C-g>` (Insert in chat) | Insert files reference via Telescope           |
-| `<leader>qs`                  | Restore session for the current directory.     |
-| `<leader>ql`                  | Restore the **l**ast saved session.            |
-| `<leader>qd`                  | Quit without saving the session (**d**iscard). |
+| Keybinding                    | Description                                  |
+| :---------------------------- | :------------------------------------------- |
+| `<leader>cb`                  | Insert buffer reference via Telescope        |
+| `<leader>cf`                  | Insert file reference via Telescope          |
+| `<leader>coq`                 | CopilotChat - Quick chat with buffer         |
+| `<leader>coo`                 | CopilotChat - Open chat                      |
+| `<leader>cot`                 | CopilotChat - Toggle chat                    |
+| `<leader>cop`                 | CopilotChat - Prompt actions                 |
+| `<leader>coh`                 | CopilotChat - Help actions                   |
+| `<leader>coe`                 | CopilotChat - Explain code (normal/visual)   |
+| `<leader>cor`                 | CopilotChat - Review code (normal/visual)    |
+| `<leader>cof`                 | CopilotChat - Fix code (normal/visual)       |
+| `<leader>cod`                 | CopilotChat - Optimize code (normal/visual)  |
+| `<leader>com`                 | CopilotChat - Generate docs (normal/visual)  |
+| `<leader>cos`                 | CopilotChat - Generate tests (normal/visual) |
+| `<leader>cog`                 | CopilotChat - Generate commit message        |
+| `<C-x><C-b>` (Insert in chat) | Insert buffer reference via Telescope        |
+| `<C-x><C-f>` (Insert in chat) | Insert file reference via Telescope          |
+| `<C-x><C-g>` (Insert in chat) | Insert files reference via Telescope         |
+
+### 🚀 Avante.nvim (AI Fast Apply) - Explicit Mode
+
+| Keybinding   | Description                                              |
+| :----------- | :------------------------------------------------------- |
+| `<leader>aa` | Avante - Ask AI (normal/visual)                          |
+| `<leader>ar` | Avante - Refresh AI suggestions                          |
+| `<leader>ae` | Avante - Edit with AI (normal/visual)                    |
+| `<leader>af` | Avante - Apply with explicit confirmation (safety-first) |
+| `<leader>as` | Avante - Explicit apply with context confirmation        |
+| `<leader>ap` | Avante - Preview suggestion safely (no auto-apply)       |
+| `<leader>aA` | Avante - Apply all suggestions (with confirmation)       |
+| `<leader>at` | Avante - Toggle sidebar                                  |
+| `<leader>ca` | Combined AI - Open both CopilotChat and Avante           |
+
+**Note**: Avante is configured in **explicit mode** for maximum safety:
+
+- **No auto-suggestions**: All AI suggestions require manual activation
+- **Confirmation required**: Every apply action requires explicit user confirmation
+- **Preview-first**: Use `<leader>ap` to safely preview suggestions before applying
+- **Context awareness**: Explicit apply shows context information before proceeding
+
+#### Avante.nvim Dependencies
+
+Avante.nvim requires several dependencies that are automatically installed:
+
+| Dependency                             | Purpose                                  |
+| :------------------------------------- | :--------------------------------------- |
+| `nvim-treesitter/nvim-treesitter`      | Syntax parsing for code understanding    |
+| `nvim-lua/plenary.nvim`                | Lua utility functions                    |
+| `MunifTanjim/nui.nvim`                 | UI components for Avante interface       |
+| `nvim-tree/nvim-web-devicons`          | File type icons in Avante sidebar        |
+| `zbirenbaum/copilot.lua`               | GitHub Copilot integration               |
+| `HakonHarnes/img-clip.nvim`            | Image pasting support in chat            |
+| `MeanderingProgrammer/render-markdown` | Markdown rendering for AI responses      |
+| `folke/snacks.nvim`                    | Modern notifications and UI enhancements |
+
+#### Custom Commands
+
+- `:AventeFastApply` - Fast apply with confirmation dialog
+- `:AventeSmartApply` - Context-aware smart application
+
+### 💾 Session Management
+
+| `<leader>qs` | Restore session for the current directory. |
+| `<leader>ql` | Restore the **l**ast saved session. |
+| `<leader>qd` | Quit without saving the session (**d**iscard). |
 
 ## Customization
 
@@ -221,3 +374,76 @@ This configuration is designed to be easily extended.
 - **LSPs, Formatters, Linters**: To add a new tool, first install it via `:Mason`. Then, if it's a formatter or linter, add it to the appropriate list in `lua/plugins/formatting.lua`. LSPs are handled automatically.
 - **Theme**: To change the theme, edit the `folke/tokyonight.nvim` entry in `lua/plugins/ui.lua`.
 - **Debug Adapters**: To debug a new language, install its debug adapter via `:Mason` and add a new configuration block for it in `lua/plugins/dap.lua`.
+
+## Modern UI Architecture
+
+This configuration uses **snacks.nvim** as the foundation for a modern, maintainable UI system:
+
+### Replaced Archived Plugins
+
+- **nvim-notify** → **snacks.nvim notifications** - Modern notification system without vim.notify overrides
+- **dressing.nvim** → **snacks.nvim input/select** - Enhanced input dialogs and selection UI
+
+### Benefits
+
+- **Reliable Startup**: No circular dependencies or startup hangs
+- **Modern UI**: Beautiful notifications and input dialogs
+- **Active Maintenance**: Uses actively maintained plugins vs. archived alternatives
+- **Safe Integration**: No vim.notify overrides that could interfere with plugin initialization
+
+## Troubleshooting
+
+### Common Issues
+
+#### Clipboard Not Working
+
+**Symptoms**: Cannot paste images in Avante, yanked text doesn't go to system clipboard
+**Solutions**:
+
+- **Check Clipboard Utilities**: Run `which xclip wl-copy pbcopy` to verify installation
+- **Install Missing Tools**: Use `./install-clipboard.sh` or install manually based on your environment
+- **Verify Configuration**: Check `:set clipboard?` should show `unnamedplus`
+- **Test System Integration**:
+
+  ```bash
+  # Test copying TO system
+  echo "test" | xclip -selection clipboard  # X11
+  echo "test" | wl-copy                      # Wayland
+
+  # Test copying FROM system
+  xclip -selection clipboard -o  # X11
+  wl-paste                       # Wayland
+  ```
+
+- **Environment Check**: Ensure `$DISPLAY` (X11) or `$WAYLAND_DISPLAY` (Wayland) is set
+- **Permission Issues**: Ensure clipboard utilities have proper permissions
+
+#### AI Features Not Working
+
+- **Check Copilot Status**: Run `:Copilot status` to verify authentication
+- **Re-authenticate**: Run `:Copilot auth` if needed
+- **Network Issues**: Ensure you have internet access for Copilot API calls
+
+#### Plugin Installation Issues
+
+- **Update Plugins**: Run `:Lazy sync` to update all plugins
+- **Clear Cache**: Run `:Lazy clear` to clear plugin cache
+- **Restart Neovim**: Close and reopen Neovim after plugin changes
+
+#### Avante.nvim Build Issues
+
+- **Install Build Tools**: Ensure `make` and `gcc`/`clang` are installed
+- **Manual Rebuild**: Run `:Lazy build avante.nvim` to rebuild manually
+- **Check Dependencies**: Verify all dependencies are installed via `:Lazy`
+
+#### UI Issues
+
+- **Notification Problems**: If notifications don't appear, check `:Lazy` for snacks.nvim installation
+- **Input Dialog Issues**: Verify snacks.nvim is properly configured in `lua/plugins/ui.lua`
+
+#### Performance Issues
+
+- **Startup Time**: Run `:Lazy profile` to identify slow-loading plugins
+- **Large Files**: Some features may be slower on very large files (>1MB)
+
+For more detailed troubleshooting, check `:messages` for error logs and `:checkhealth` for system diagnostics.

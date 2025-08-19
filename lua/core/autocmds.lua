@@ -71,7 +71,7 @@ create_augroup("GeneralAutocmds", {
 		pattern = "*",
 		desc = "Highlight yanked text",
 		callback = function()
-			vim.highlight.on_yank({ timeout = 200 })
+			vim.hl.on_yank({ timeout = 200 })
 		end,
 	},
 	-- Remove trailing whitespace on save

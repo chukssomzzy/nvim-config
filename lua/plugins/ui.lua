@@ -1,5 +1,4 @@
 return {
-	-- Theme
 	{
 		"folke/tokyonight.nvim",
 		priority = 1000,
@@ -81,5 +80,51 @@ return {
 		config = function()
 			require("gitsigns").setup()
 		end,
+	},
+
+	-- Snacks.nvim - Modern notification system with UI enhancements
+	{
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		opts = {
+			-- Configure notifications
+			notifier = {
+				enabled = true,
+				top_down = false,
+				style = "fancy",
+				margin = { top = 0, right = 1, bottom = 0 },
+				width = { min = 40, max = 0.4 },
+				height = { min = 1, max = 0.6 },
+			},
+			-- Enable input/select UI enhancements
+			input = { enabled = true },
+			select = { enabled = true },
+
+			-- Add dashboard for image support
+			dashboard = {
+				enabled = true,
+				sections = {
+					{ section = "header" },
+					{ section = "keys", gap = 1, padding = 1 },
+					{ section = "startup" },
+				},
+			},
+
+			image = {
+				enabled = true,
+			},
+			-- Enable bigfile for better performance with large files
+			bigfile = { enabled = true },
+
+			-- Enable quickfile for faster file operations
+			quickfile = { enabled = true },
+
+			-- Enable statuscolumn improvements
+			statuscolumn = { enabled = true },
+
+			-- Enable words (better word under cursor highlighting)
+			words = { enabled = true },
+		},
 	},
 }
