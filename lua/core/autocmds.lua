@@ -123,15 +123,41 @@ create_augroup("UnifiedSession", {
 				if vim.fn.exists("g:this_session") == 0 then
 					vim.cmd("Obsession")
 				end
-				-- Reload all buffers to trigger plugin autocommands (e.g., Treesitter)
-				for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-					if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, "buflisted") then
-						vim.api.nvim_buf_call(bufnr, function()
-							vim.cmd("doautocmd BufRead")
-						end)
-					end
-				end
 			end)
+		end,
+	},
+})
+
+-- ============================================================================
+-- CopilotChat Session Management
+-- ============================================================================
+create_augroup("CopilotChatSession", {
+	{
+		event = "VimLeavePre",
+		pattern = "*",
+		desc = "Auto-save CopilotChat session (workspace-specific)",
+		callback = function()
+			local workspace = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+			local ok, _ = pcall(vim.cmd, "CopilotChatSave " .. workspace)
+			if not ok then
+				-- Silently ignore if CopilotChat is not loaded or no active chat
+			end
+		end,
+	},
+	-- Auto-restore chat on startup (after plugins are loaded)
+	{
+		event = "VimEnter",
+		pattern = "*",
+		desc = "Auto-restore CopilotChat session (workspace-specific)",
+		callback = function()
+			local workspace = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+			-- Delay to ensure plugins are loaded
+			vim.defer_fn(function()
+				local ok, _ = pcall(vim.cmd, "CopilotChatLoad " .. workspace)
+				if not ok then
+					-- Silently ignore if no saved chat exists or CopilotChat is not available
+				end
+			end, 500) -- 500ms delay
 		end,
 	},
 })
