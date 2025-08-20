@@ -1,5 +1,26 @@
 return {
 	{
+		"folke/edgy.nvim",
+		---@module 'edgy'
+		---@param opts Edgy.Config
+		opts = function(_, opts)
+			for _, pos in ipairs({ "top", "bottom", "left", "right" }) do
+				opts[pos] = opts[pos] or {}
+				table.insert(opts[pos], {
+					ft = "snacks_terminal",
+					size = { height = 0.4 },
+					title = "%{b:snacks_terminal.id}: %{b:term_title}",
+					filter = function(_buf, win)
+						return vim.w[win].snacks_win
+							and vim.w[win].snacks_win.position == pos
+							and vim.w[win].snacks_win.relative == "editor"
+							and not vim.w[win].trouble_preview
+					end,
+				})
+			end
+		end,
+	},
+	{
 		"folke/tokyonight.nvim",
 		priority = 1000,
 		config = function()
@@ -7,7 +28,28 @@ return {
 			vim.cmd.colorscheme("tokyonight")
 		end,
 	},
-
+	-- animate the animatable
+	{
+		"echasnovski/mini.nvim",
+		version = false,
+		config = function()
+			require("mini.animate").setup()
+			require("mini.indentscope").setup()
+			require("mini.pairs").setup()
+			require("mini.comment").setup()
+			require("mini.files").setup()
+			require("mini.diff").setup()
+			require("mini.tabline").setup()
+			require("mini.jump2d").setup({
+				allowed_lines = { cursor_before = true },
+				allowed_windows = { not_current = true },
+				view = {
+					dim = false,
+				},
+			})
+			-- Add more modules as needed
+		end,
+	},
 	-- Statusline
 	{
 		"nvim-lualine/lualine.nvim",
@@ -122,6 +164,85 @@ return {
 
 			-- Enable statuscolumn improvements
 			statuscolumn = { enabled = true },
+
+			terminal = {
+				-- Default window configuration
+				win = {
+					style = "terminal",
+					-- Enhanced terminal window settings
+					wo = {
+						winbar = "%{b:snacks_terminal.id}: %{b:term_title}",
+						statuscolumn = "",
+						number = false,
+						relativenumber = false,
+					},
+				},
+				-- Buffer options for terminal
+				bo = {
+					filetype = "snacks_terminal",
+					bufhidden = "hide",
+					buflisted = false,
+				},
+				-- Default behavior settings
+				interactive = true, -- Auto-insert, auto-close, start-insert
+				auto_insert = true, -- Enter insert mode when entering terminal
+				auto_close = true, -- Close terminal when process exits
+				start_insert = true, -- Start in insert mode
+				-- Environment variables for terminals
+				env = {
+					TERM = "xterm-256color",
+				},
+				-- Terminal keybindings
+				keys = {
+					q = "hide",
+					-- Enhanced file navigation under cursor
+					gf = function(self)
+						local f = vim.fn.findfile(vim.fn.expand("<cfile>"), "**")
+						if f == "" then
+							Snacks.notify.warn("No file under cursor")
+						else
+							self:hide()
+							vim.schedule(function()
+								vim.cmd("e " .. f)
+							end)
+						end
+					end,
+					-- Improved escape handling
+					term_normal = {
+						"<esc>",
+						function(self)
+							self.esc_timer = self.esc_timer or (vim.uv or vim.loop).new_timer()
+							if self.esc_timer:is_active() then
+								self.esc_timer:stop()
+								vim.cmd("stopinsert")
+							else
+								self.esc_timer:start(200, 0, function() end)
+								return "<esc>"
+							end
+						end,
+						mode = "t",
+						expr = true,
+						desc = "Double escape to normal mode",
+					},
+					-- Navigation between terminals
+					["<C-h>"] = function(self)
+						self:hide()
+						vim.cmd("wincmd h")
+					end,
+					["<C-j>"] = function(self)
+						self:hide()
+						vim.cmd("wincmd j")
+					end,
+					["<C-k>"] = function(self)
+						self:hide()
+						vim.cmd("wincmd k")
+					end,
+					["<C-l>"] = function(self)
+						self:hide()
+						vim.cmd("wincmd l")
+					end,
+				},
+			},
 
 			-- Enable words (better word under cursor highlighting)
 			words = { enabled = true },

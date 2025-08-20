@@ -1,7 +1,4 @@
 return {
-	-- Smart commenting
-	{ "numToStr/Comment.nvim", opts = {} },
-
 	-- Auto-saving
 	{
 		"Pocco81/auto-save.nvim",

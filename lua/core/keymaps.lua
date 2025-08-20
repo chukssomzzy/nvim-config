@@ -28,19 +28,114 @@ map("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
 map("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 map("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
--- Terminal
-map("n", "<leader>tt", "<cmd>new --size=5 | terminal<CR>", { desc = "Open horizontal terminal" })
-map("n", "<leader>tv", "<cmd>vnew --size=40 | terminal<CR>", { desc = "Open vertical terminal" })
+-- ============================================================================
+-- Snacks Terminal Keymappings
+-- ============================================================================
+
+-- Primary terminal commands with <leader>t prefix
+map("n", "<leader>tt", function()
+	Snacks.terminal.toggle()
+end, { desc = "Toggle terminal" })
+
+map("n", "<leader>tf", function()
+	Snacks.terminal.toggle(nil, { win = { position = "float" } })
+end, { desc = "Toggle floating terminal" })
+
+map("n", "<leader>th", function()
+	Snacks.terminal.toggle(nil, { win = { position = "bottom", height = 0.4 } })
+end, { desc = "Toggle horizontal terminal" })
+
+map("n", "<leader>tv", function()
+	Snacks.terminal.toggle(nil, { win = { position = "right", width = 0.4 } })
+end, { desc = "Toggle vertical terminal" })
+
+-- Specialized terminal environments
+map("n", "<leader>tg", function()
+	Snacks.terminal.toggle("lazygit", {
+		win = { position = "float", width = 0.9, height = 0.9 },
+		cwd = vim.fn.getcwd(),
+		interactive = true,
+	})
+end, { desc = "Toggle git terminal (lazygit)" })
+
+map("n", "<leader>tp", function()
+	Snacks.terminal.toggle("python3", {
+		win = { position = "float", width = 0.8, height = 0.6 },
+		interactive = true,
+	})
+end, { desc = "Toggle Python REPL" })
+
+map("n", "<leader>tn", function()
+	Snacks.terminal.toggle("node", {
+		win = { position = "float", width = 0.8, height = 0.6 },
+		interactive = true,
+	})
+end, { desc = "Toggle Node.js REPL" })
+
+-- Terminal management
+map("n", "<leader>tl", function()
+	local terminals = Snacks.terminal.list()
+	if #terminals > 0 then
+		vim.ui.select(terminals, {
+			prompt = "Select Terminal:",
+			format_item = function(term)
+				return string.format("[%s] %s", term.id or "?", term.cmd or "shell")
+			end,
+		}, function(choice)
+			if choice then
+				choice:show()
+			end
+		end)
+	else
+		vim.notify("No terminals found", vim.log.levels.INFO)
+	end
+end, { desc = "List and select terminals" })
+
+map("n", "<leader>tk", function()
+	local terminals = Snacks.terminal.list()
+	for _, term in ipairs(terminals) do
+		term:close()
+	end
+	vim.notify("Closed all terminals", vim.log.levels.INFO)
+end, { desc = "Kill all terminals" })
+
+-- Quick access terminal commands
+map("n", "<leader>tc", function()
+	Snacks.terminal.open(nil, {
+		cwd = vim.fn.getcwd(),
+		win = { position = "float" },
+	})
+end, { desc = "Open new terminal in current directory" })
+
+map("n", "<leader>tr", function()
+	Snacks.terminal.open(nil, {
+		cwd = vim.fn.expand("%:p:h"),
+		win = { position = "bottom", height = 0.3 },
+	})
+end, { desc = "Open terminal in current file directory" })
+
+-- Terminal mode keybindings
 map("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })
+map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Move to left window from terminal" })
+map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Move to down window from terminal" })
+map("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Move to up window from terminal" })
+map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Move to right window from terminal" })
+
+-- Terminal resize keybindings (when in terminal window)
+map("t", "<C-Up>", "<C-\\><C-n><cmd>resize +2<CR>a", { desc = "Increase terminal height" })
+map("t", "<C-Down>", "<C-\\><C-n><cmd>resize -2<CR>a", { desc = "Decrease terminal height" })
+map("t", "<C-Left>", "<C-\\><C-n><cmd>vertical resize -2<CR>a", { desc = "Decrease terminal width" })
+map("t", "<C-Right>", "<C-\\><C-n><cmd>vertical resize +2<CR>a", { desc = "Increase terminal width" })
 
 -- ============================================================================
 -- Plugin Keymappings
 -- ============================================================================
 
--- Toggle NERDTree file explorer
-map("n", "<leader>h", "<cmd>NERDTreeToggle<CR>", { desc = "Toggle file explorer" })
+-- Toggle file explorer
+map("n", "<leader>h", function()
+	require("mini.files").open()
+end, { desc = "Toggle file explorer (mini.files)" })
 
--- Format the current buffer with conform.nvim
 map({ "n", "v" }, "<leader>i", function()
 	require("conform").format({ async = true, lsp_fallback = true })
 end, { desc = "Format buffer" })
@@ -267,16 +362,88 @@ map("n", "<leader>ca", function()
 	end, 100)
 	require("snacks").notify("🤖 Opened combined AI workflow: CopilotChat + Avante", { level = "info" })
 end, { desc = "Open combined CopilotChat + Avante" })
+map("v", "<leader>cc", ":CopilotChat<CR>", { desc = "Send selection to CopilotChat" })
 
 -- ============================================================================
--- LSP Keymapings
+-- Mini.jump2d Keymappings
 -- ============================================================================
-map("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "LSP: Go to Definition" })
 
-map("n", "gD", vim.lsp.buf.declaration, { buffer = bufnr, desc = "LSP: Go to Declaration" })
-map("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "LSP: Hover Documentation" })
-map("n", "gi", vim.lsp.buf.implementation, { buffer = bufnr, desc = "LSP: Go to Implementation" })
-map("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "LSP: Signature Help" })
-map("n", "gr", vim.lsp.buf.references, { buffer = bufnr, desc = "LSP: Show References" })
-map("n", "<leader>lr", vim.lsp.buf.rename, { buffer = bufnr, desc = "LSP: Rename" })
-map({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { buffer = bufnr, desc = "LSP: Code Action" })
+-- Primary jump commands under <leader>j prefix
+map("n", "<leader>jj", function()
+	require("mini.jump2d").start(require("mini.jump2d").builtin_opts.default)
+end, { desc = "Jump: Default jump (smart spotter)" })
+
+map("n", "<leader>jl", function()
+	require("mini.jump2d").start(require("mini.jump2d").builtin_opts.line_start)
+end, { desc = "Jump: Line start" })
+
+map("n", "<leader>jw", function()
+	require("mini.jump2d").start(require("mini.jump2d").builtin_opts.word_start)
+end, { desc = "Jump: Word start" })
+
+map("n", "<leader>jc", function()
+	require("mini.jump2d").start(require("mini.jump2d").builtin_opts.single_character)
+end, { desc = "Jump: Single character (user input)" })
+
+map("n", "<leader>jq", function()
+	require("mini.jump2d").start(require("mini.jump2d").builtin_opts.query)
+end, { desc = "Jump: Query (user input)" })
+
+-- Enhanced jump options with visual preview
+map("n", "<leader>jp", function()
+	require("mini.jump2d").start({
+		spotter = require("mini.jump2d").gen_spotter.pattern("%p+"),
+		allowed_lines = { cursor_before = true, cursor_at = true, cursor_after = true },
+		view = { n_steps_ahead = 1, dim = true },
+	})
+end, { desc = "Jump: Punctuation marks" })
+
+-- Jump within current window only
+map("n", "<leader>jn", function()
+	require("mini.jump2d").start({
+		spotter = require("mini.jump2d").builtin_opts.default.spotter,
+		allowed_windows = { current = true, not_current = false },
+		view = { dim = true },
+	})
+end, { desc = "Jump: Current window only" })
+
+-- Jump forward/backward only
+map("n", "<leader>jf", function()
+	require("mini.jump2d").start({
+		spotter = require("mini.jump2d").builtin_opts.default.spotter,
+		allowed_lines = { cursor_before = false, cursor_at = true, cursor_after = true },
+		view = { dim = true },
+	})
+end, { desc = "Jump: Forward only" })
+
+map("n", "<leader>jb", function()
+	require("mini.jump2d").start({
+		spotter = require("mini.jump2d").builtin_opts.default.spotter,
+		allowed_lines = { cursor_before = true, cursor_at = true, cursor_after = false },
+		view = { dim = true },
+	})
+end, { desc = "Jump: Backward only" })
+
+-- Advanced jump patterns
+map("n", "<leader>jv", function()
+	require("mini.jump2d").start({
+		spotter = require("mini.jump2d").builtin_opts.word_start.spotter,
+		view = { n_steps_ahead = 2, dim = true },
+		labels = "abcdefghijklmnopqrstuvwxyz",
+	})
+end, { desc = "Jump: Word start with visual preview" })
+
+-- Jump to specific patterns
+map("n", "<leader>j.", function()
+	require("mini.jump2d").start({
+		spotter = require("mini.jump2d").gen_spotter.pattern("%."),
+		view = { dim = true },
+	})
+end, { desc = "Jump: To dots/periods" })
+
+map("n", "<leader>j,", function()
+	require("mini.jump2d").start({
+		spotter = require("mini.jump2d").gen_spotter.pattern("[,;]"),
+		view = { dim = true },
+	})
+end, { desc = "Jump: To commas/semicolons" })

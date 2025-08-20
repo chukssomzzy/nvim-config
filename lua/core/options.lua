@@ -28,6 +28,7 @@ opt.signcolumn = "yes:1"
 opt.laststatus = 3
 opt.cmdheight = 1
 opt.showmode = false
+opt.splitkeep = "screen"
 
 -- Set cursor shape for different modes
 opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50"
