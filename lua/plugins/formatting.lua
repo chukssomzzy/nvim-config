@@ -10,10 +10,10 @@ return {
 
 				python = { "isort", "black" },
 
-				javascript = { "prettier" },
-				typescript = { "prettier" },
-				javascriptreact = { "prettier" },
-				typescriptreact = { "prettier" },
+				javascript = { "eslint_d", "prettier" },
+				typescript = { "eslint_d", "prettier" },
+				javascriptreact = { "eslint_d", "prettier" },
+				typescriptreact = { "eslint_d", "prettier" },
 				css = { "prettier" },
 				html = { "prettier" },
 				json = { "prettier" },
@@ -21,6 +21,7 @@ return {
 				markdown = { "prettier" },
 				bash = { "shfmt" },
 				dockerfile = { "prettier" },
+				go = { "gofmt", "goimports", "golines", "prettier" },
 			},
 
 			format_on_save = {

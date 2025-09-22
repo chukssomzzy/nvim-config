@@ -50,13 +50,6 @@ map("n", "<leader>tv", function()
 end, { desc = "Toggle vertical terminal" })
 
 -- Specialized terminal environments
-map("n", "<leader>tg", function()
-	Snacks.terminal.toggle("lazygit", {
-		win = { position = "float", width = 0.9, height = 0.9 },
-		cwd = vim.fn.getcwd(),
-		interactive = true,
-	})
-end, { desc = "Toggle git terminal (lazygit)" })
 
 map("n", "<leader>tp", function()
 	Snacks.terminal.toggle("python3", {
@@ -101,7 +94,7 @@ end, { desc = "Kill all terminals" })
 
 -- Quick access terminal commands
 map("n", "<leader>tc", function()
-	Snacks.terminal.open(nil, {
+	Snacks.terminal.toggle(nil, {
 		cwd = vim.fn.getcwd(),
 		win = { position = "float" },
 	})
@@ -447,3 +440,11 @@ map("n", "<leader>j,", function()
 		view = { dim = true },
 	})
 end, { desc = "Jump: To commas/semicolons" })
+
+-- LSP keybindings
+map("n", "<leader>gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+map("n", "<leader>gr", vim.lsp.buf.references, { desc = "Go to references" })
+map("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
+map("n", "<leader>gt", vim.lsp.buf.type_definition, { desc = "Go to type definition" })
+map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
+map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
