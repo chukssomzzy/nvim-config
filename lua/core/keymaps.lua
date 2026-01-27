@@ -33,44 +33,57 @@ map("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 -- ============================================================================
 
 -- Primary terminal commands with <leader>t prefix
-map("n", "<leader>tt", function()
-	Snacks.terminal.toggle()
-end, { desc = "Toggle terminal" })
-
 map("n", "<leader>tf", function()
-	Snacks.terminal.toggle(nil, { win = { position = "float" } })
-end, { desc = "Toggle floating terminal" })
+	require("snacks.terminal").open("bash", { win = { position = "float" } })
+end, { desc = "Toggle floating bash terminal" })
+
+map("n", "<leader>tt", function()
+	require("snacks.terminal").toggle("bash", { win = { position = "float" }, create = false })
+end, { desc = "toggle floating terminal" })
 
 map("n", "<leader>th", function()
-	Snacks.terminal.toggle(nil, { win = { position = "bottom", height = 0.4 } })
-end, { desc = "Toggle horizontal terminal" })
+	require("snacks.terminal").toggle(nil, { win = { position = "bottom", height = 0.4 } })
+end, { desc = "toggle horizontal terminal" })
 
 map("n", "<leader>tv", function()
-	Snacks.terminal.toggle(nil, { win = { position = "right", width = 0.4 } })
-end, { desc = "Toggle vertical terminal" })
+	require("snacks.terminal").toggle(nil, { win = { position = "right", width = 0.4 } })
+end, { desc = "toggle vertical terminal" })
 
--- Specialized terminal environments
+map("n", "<leader>td", function()
+	require("snacks.terminal").open(
+		{ "docker", "compose", "up" },
+		{ win = { position = "float", width = 0.8, height = 0.6 } }
+	)
+end, { desc = "toggle docker compose up terminal" })
 
+map("n", "<leader>trd", function()
+	require("snacks.terminal").open(
+		{ "npm", "run", "dev" },
+		{ win = { position = "float", width = 0.4, height = 0.6 } }
+	)
+end, { desc = "start npm dev" })
+
+-- specialized terminal environments
 map("n", "<leader>tp", function()
-	Snacks.terminal.toggle("python3", {
+	require("snacks.terminal").open("python3", {
 		win = { position = "float", width = 0.8, height = 0.6 },
 		interactive = true,
 	})
-end, { desc = "Toggle Python REPL" })
+end, { desc = "toggle python repl" })
 
 map("n", "<leader>tn", function()
-	Snacks.terminal.toggle("node", {
+	require("snacks.terminal").open("node", {
 		win = { position = "float", width = 0.8, height = 0.6 },
 		interactive = true,
 	})
-end, { desc = "Toggle Node.js REPL" })
+end, { desc = "toggle node.js repl" })
 
--- Terminal management
+-- terminal management
 map("n", "<leader>tl", function()
-	local terminals = Snacks.terminal.list()
+	local terminals = require("snacks.terminal").list()
 	if #terminals > 0 then
 		vim.ui.select(terminals, {
-			prompt = "Select Terminal:",
+			prompt = "select terminal:",
 			format_item = function(term)
 				return string.format("[%s] %s", term.id or "?", term.cmd or "shell")
 			end,
@@ -80,33 +93,17 @@ map("n", "<leader>tl", function()
 			end
 		end)
 	else
-		vim.notify("No terminals found", vim.log.levels.INFO)
+		vim.notify("no terminals found", vim.log.levels.info)
 	end
-end, { desc = "List and select terminals" })
+end, { desc = "list and select terminals" })
 
 map("n", "<leader>tk", function()
-	local terminals = Snacks.terminal.list()
+	local terminals = require("snacks.terminal").list()
 	for _, term in ipairs(terminals) do
 		term:close()
 	end
-	vim.notify("Closed all terminals", vim.log.levels.INFO)
-end, { desc = "Kill all terminals" })
-
--- Quick access terminal commands
-map("n", "<leader>tc", function()
-	Snacks.terminal.toggle(nil, {
-		cwd = vim.fn.getcwd(),
-		win = { position = "float" },
-	})
-end, { desc = "Open new terminal in current directory" })
-
-map("n", "<leader>tr", function()
-	Snacks.terminal.open(nil, {
-		cwd = vim.fn.expand("%:p:h"),
-		win = { position = "bottom", height = 0.3 },
-	})
-end, { desc = "Open terminal in current file directory" })
-
+	vim.notify("closed all terminals", vim.log.levels.info)
+end, { desc = "kill all terminals" })
 -- Terminal mode keybindings
 map("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })
 map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Move to left window from terminal" })

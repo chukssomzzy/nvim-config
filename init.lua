@@ -37,6 +37,7 @@ require("lazy").setup({
 		{ import = "plugins.avante" },
 		{ import = "plugins.mcp" },
 		{ import = "plugins.cmp" },
+		-- { import = "plugins.language-specifics" },
 	},
 	-- Configure lazy.nvim options
 	ui = {

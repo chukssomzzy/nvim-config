@@ -7,9 +7,7 @@ return {
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
-
 				python = { "isort", "black" },
-
 				javascript = { "eslint_d", "prettier" },
 				typescript = { "eslint_d", "prettier" },
 				javascriptreact = { "eslint_d", "prettier" },
@@ -21,11 +19,13 @@ return {
 				markdown = { "prettier" },
 				bash = { "shfmt" },
 				dockerfile = { "prettier" },
-				go = { "gofmt", "goimports", "golines", "prettier" },
+				go = { "gofmt", "prettier" },
+				php = { "pint" },
+				blade = { "blade-formatter" },
 			},
 
 			format_on_save = {
-				timeout_ms = 1500,
+				timeout_ms = 500,
 				lsp_fallback = true,
 			},
 		},
@@ -40,12 +40,23 @@ return {
 			local flake8 = lint.linters.flake8
 
 			flake8.args = { "--max-line-length=88", "--ignore=E501,W503", "-" }
-
+			lint.linters.golangci_lint = {
+				cmd = "golangci-lint",
+				stdin = false,
+				args = { "run", "--out-format", "json" },
+				stream = "stdout",
+				ignore_exitcode = true,
+				parser = require("lint.parser").from_errorformat("%f:%l:%c: %m", {
+					source = "golangci-lint",
+					severity = vim.diagnostic.severity.WARN,
+				}),
+			}
 			lint.linters_by_ft = {
 				python = { "flake8" },
 				javascript = { "eslint_d" },
 				typescript = { "eslint_d" },
 				bash = { "shellcheck" },
+				go = { "golangci_lint" },
 			}
 
 			-- Set up linting to run only on save.

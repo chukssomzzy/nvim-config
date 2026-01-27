@@ -23,7 +23,7 @@ return {
 
 			-- The list of servers you want Mason to install.
 			local servers = {
-				"pyright",
+				-- "pyright",
 				"html",
 				"cssls",
 				"tailwindcss",

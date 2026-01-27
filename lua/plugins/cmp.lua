@@ -2,8 +2,8 @@ return {
 	"saghen/blink.cmp",
 	dependencies = {
 		"rafamadriz/friendly-snippets",
-		"giuxtaposition/blink-cmp-copilot",
 		"Kaiser-Yang/blink-cmp-avante",
+		"fang2hou/blink-copilot",
 	},
 	version = "1.*",
 	build = "cargo build --release",
@@ -30,8 +30,7 @@ return {
 			providers = {
 				copilot = {
 					name = "copilot",
-					module = "blink-cmp-copilot",
-					score_offset = 100,
+					module = "blink-copilot",
 					async = true,
 				},
 				avante = {
@@ -61,6 +60,12 @@ return {
 					border = "rounded",
 				},
 			},
+			ghost_text = {
+				enabled = true,
+			},
+		},
+		fuzzy = {
+			implementation = "lua",
 		},
 		signature = {
 			enabled = true,
